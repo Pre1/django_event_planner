@@ -9,8 +9,8 @@
     <p class="card-text">{{event.seats}}</p>
     <p class="card-text">{{event.organized_by}}</p>
     <br>
-    <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
-    <a href="{% url 'booking-event' event.id %}" class="btn btn-outline-info btn-block">booking</a>
+
+  <a href="{% url 'booking-event' event.id %}" class="btn btn-outline-info btn-block">booking</a>
   <p class="card-text">
       <form action="{% url 'booking-event' event.id %}" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
@@ -39,4 +39,11 @@
   </tbody>
 </table>
 </div>
+
+    {% if request.user.is_staff or request.user == event.organized_by %}
+    <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
+    {% endif %}
+    
+  </div>
+
 {% endblock %}

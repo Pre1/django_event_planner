@@ -1,12 +1,13 @@
 from django.urls import path
 from .views import (
-    Login,
-    Logout,
-    Signup,
-    home,
-    event_detail,
-    update_event,
-    event_create,
+	Login,
+	Logout,
+	Signup,
+	home,
+	event_detail,
+	update_event,
+	event_create,
+	dashboard_event,
     booking_event,
 
 )
@@ -21,5 +22,11 @@ urlpatterns = [
     path('detail/<int:event_id>/', event_detail, name='event-detail'),
     path('create/', event_create, name='event-create'),
     path('<int:event_id>/update/', update_event, name='event-update'),
+
     path('<int:event_id>/booking/', booking_event, name='booking-event'),
+
+    
+    path('dashboard/', dashboard_event, name='dashboard'),
+
+
 ]
