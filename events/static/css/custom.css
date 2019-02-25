@@ -1,0 +1,21 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px;
+}
+.jumbotron{
+    background-color: black;
+}
+.messages{
+    position: absolute;
+    margin-top: 67px;
+    z-index: 10;
+    width: 100%;
+}
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

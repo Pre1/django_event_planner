@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import UserSignup, UserLogin
+from django.contrib import messages
+
 
 def home(request):
     return render(request, 'home.html')
@@ -46,6 +48,8 @@ class Login(View):
             if auth_user is not None:
                 login(request, auth_user)
                 messages.success(request, "Welcome Back!")
+
+
                 return redirect('dashboard')
             messages.warning(request, "Wrong email/password combination. Please try again.")
             return redirect("login")
