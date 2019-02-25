@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin, EventForm
+from .forms import UserSignup, UserLogin, EventForm ,BookingForm
 from django.contrib import messages
 
 
@@ -17,26 +17,49 @@ def home(request):
 
 def event_detail(request , event_id):
    event_obj = Event.objects.get(id=event_id)
+   booking_obj = Booking.objects.filter(event=event_obj)
    context = {
-    "event" : event_obj
+    "event" : event_obj,
+    "booking": booking_obj,
    }
    return render(request, 'detail.html', context)
 
 def event_create(request):
-    #if request.user.is_anonymous:
-        #return redirect('login')
+    if request.user.is_anonymous:
+        return redirect('login')
     form = EventForm()
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
             event_obj = form.save(commit=False)
             event_obj.organized_by = request.user
+            event_obj.ticket_left = event_obj.seats
             event_obj.save()
             return redirect('home')
     context = {
         "form":form,
     }
     return render(request, 'create.html', context)
+
+def booking_event(request, event_id):
+    form = BookingForm()
+    event = Event.objects.get(id=event_id)
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            event_obj = form.save(commit=False)
+            event_obj.event = event
+            event_obj.user = request.user
+            event_obj.save()
+            return redirect('event-detail', event_id)
+    context = {
+        "form":form,
+        "event": event,
+    }
+    return render(request, 'booking.html', context)
+
+
+
 
 class Signup(View):
     form_class = UserSignup
@@ -80,7 +103,7 @@ class Login(View):
                 messages.success(request, "Welcome Back!")
 
 
-                return redirect('dashboard')
+                return redirect('home')
             messages.warning(request, "Wrong email/password combination. Please try again.")
             return redirect("login")
         messages.warning(request, form.errors)

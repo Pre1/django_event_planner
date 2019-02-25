@@ -20,10 +20,20 @@ class UserLogin(forms.Form):
 
 class EventForm(forms.ModelForm):
     class Meta:
-	    model = Event
-	    exclude = ['ticket_left', 'organized_by']
+        model = Event
+        exclude = ['ticket_left', 'organized_by']
 
-	    widgets = {
-	            'date': forms.DateInput(attrs={'type': 'date'}),
-	            'time': forms.DateInput(attrs={'type': 'time'}),
-		}
+        widgets = {
+                'date': forms.DateInput(attrs={'type': 'date'}),
+                'time': forms.DateInput(attrs={'type': 'time'}),
+        }
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['ticket_num',]
+
+        widgets = {
+                'date': forms.DateInput(attrs={'type': 'date'}),
+                'time': forms.DateInput(attrs={'type': 'time'}),
+        }        

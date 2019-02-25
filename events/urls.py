@@ -1,16 +1,18 @@
 from django.urls import path
 from .views import (
-	Login,
-	Logout,
-	Signup,
-	home,
-	event_detail,
-	update_event,
-	event_create,
+    Login,
+    Logout,
+    Signup,
+    home,
+    event_detail,
+    update_event,
+    event_create,
+    booking_event,
+
 )
 
 urlpatterns = [
-	path('', home, name='home'),
+    path('', home, name='home'),
  
     path('signup/', Signup.as_view(), name='signup'),
     path('login/', Login.as_view(), name='login'),
@@ -19,4 +21,5 @@ urlpatterns = [
     path('detail/<int:event_id>/', event_detail, name='event-detail'),
     path('create/', event_create, name='event-create'),
     path('<int:event_id>/update/', update_event, name='event-update'),
+    path('<int:event_id>/booking/', booking_event, name='booking-event'),
 ]
