@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin , EventForm
+from .forms import UserSignup, UserLogin, EventForm
 from django.contrib import messages
+
 
 from .models import Booking, Event
 
@@ -91,4 +92,26 @@ class Logout(View):
         logout(request)
         messages.success(request, "You have successfully logged out.")
         return redirect("login")
+
+
+def update_event(request, event_id):
+    event = Event.objects.get(id=event_id)
+
+    event_form = EventForm(instance=event)
+    if request.method == 'POST':
+        print('update - POST')
+        event_form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            print('update - is_valid')
+            form.save()
+            # it'll redirect to the detail page
+            return redirect('event-detail', event_id)
+
+    context = {
+        'form': event_form,
+        'event': event
+    }
+    print('update - NOT POST!!')
+    return  render(request, 'update.html', context)
+
 
