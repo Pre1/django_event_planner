@@ -1,5 +1,12 @@
 from django.urls import path
-from .views import Login, Logout, Signup, home, event_detail
+from .views import (
+	Login,
+	Logout,
+	Signup,
+	home,
+	event_detail,
+	update_event,
+)
 
 urlpatterns = [
 	path('', home, name='home'),
@@ -9,4 +16,5 @@ urlpatterns = [
     path('logout/', Logout.as_view(), name='logout'),
 
     path('detail/<int:event_id>/', event_detail, name='event-detail'),
+    path('<int:event_id>/update/', update_event, name='event-update'),
 ]
