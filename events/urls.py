@@ -7,6 +7,7 @@ from .views import (
 	event_detail,
 	update_event,
 	event_create,
+	dashboard_event,
 )
 
 urlpatterns = [
@@ -19,4 +20,7 @@ urlpatterns = [
     path('detail/<int:event_id>/', event_detail, name='event-detail'),
     path('create/', event_create, name='event-create'),
     path('<int:event_id>/update/', update_event, name='event-update'),
+    
+    path('dashboard/', dashboard_event, name='dashboard'),
+
 ]
