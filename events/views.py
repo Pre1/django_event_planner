@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import UserSignup, UserLogin, EventForm
 from django.contrib import messages
-
+from django.http import Http404
 
 from .models import Booking, Event
 
@@ -96,6 +96,10 @@ class Logout(View):
 
 def update_event(request, event_id):
     event = Event.objects.get(id=event_id)
+
+    if not(request.user.is_staff or request.user == event.organized_by):
+        print("==================")
+        return redirect('login')
 
     event_form = EventForm(instance=event)
     if request.method == 'POST':

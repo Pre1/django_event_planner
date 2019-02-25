@@ -9,7 +9,10 @@
     <p class="card-text">{{event.seat}}</p>
     <p class="card-text">{{event.organized_by}}</p>
     <br>
-    <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
 
+    {% if request.user.is_staff or request.user == event.organized_by %}
+    <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
+    {% endif %}
+    
   </div>
 {% endblock %}
