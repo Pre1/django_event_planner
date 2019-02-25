@@ -1,24 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.urls import reverse
+
 
 
 class Event(models.Model):
 
-    title = models.CharField(max_length=20)
-    description = models.TextField()
-    date = models.DateField()
-    time = models.TimeField()
-    seats = models.IntegerField()
-    ticket_left = models.IntegerField()
-    organized_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+	title = models.CharField(max_length=20)
+	description = models.TextField()
+	date = models.DateField()
+	time = models.TimeField()
+	seats = models.IntegerField()
+	ticket_left = models.IntegerField()
+	organized_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
-    def get_absolute_url(self):
+	def get_absolute_url(self):
 		return reverse('event-detail', kwargs={'event_id': self.id})
 
-    def __str__(self):
-        self.title
-    
+	def __str__(self):
+		return self.title
+	
 
 
 class Booking(models.Model):

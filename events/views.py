@@ -4,9 +4,26 @@ from django.views import View
 from .forms import UserSignup, UserLogin
 from django.contrib import messages
 
+from .models import Booking, Event
 
 def home(request):
-    return render(request, 'home.html')
+    events = Event.objects.all()
+
+    context = {
+        "events": events 
+    }
+
+    return render(request, 'home.html', context)
+
+
+def event_detail(request , event_id):
+   event_obj = Event.objects.get(id=event_id)
+   context = {
+    "event" : event_obj
+   }
+   
+   return render(request, 'detail.html', context)
+
 
 class Signup(View):
     form_class = UserSignup
