@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import Login, Logout, Signup, home, event_detail
+from .views import Login, Logout, Signup, home, event_detail ,event_create
+	
 
 urlpatterns = [
 	path('', home, name='home'),
@@ -9,4 +10,5 @@ urlpatterns = [
     path('logout/', Logout.as_view(), name='logout'),
 
     path('detail/<int:event_id>/', event_detail, name='event-detail'),
+    path('create/', event_create, name='event-create'),
 ]

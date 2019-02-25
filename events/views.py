@@ -1,18 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin
+from .forms import UserSignup, UserLogin , EventForm
 from django.contrib import messages
 
 from .models import Booking, Event
 
 def home(request):
     events = Event.objects.all()
-
     context = {
         "events": events 
     }
-
     return render(request, 'home.html', context)
 
 
@@ -21,9 +19,23 @@ def event_detail(request , event_id):
    context = {
     "event" : event_obj
    }
-   
    return render(request, 'detail.html', context)
 
+def event_create(request):
+    #if request.user.is_anonymous:
+        #return redirect('login')
+    form = EventForm()
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event_obj = form.save(commit=False)
+            event_obj.organized_by = request.user
+            event_obj.save()
+            return redirect('home')
+    context = {
+        "form":form,
+    }
+    return render(request, 'create.html', context)
 
 class Signup(View):
     form_class = UserSignup
