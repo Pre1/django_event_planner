@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.http import Http404
 from django.db.models import Q
 
+import datetime
+
 from .models import Booking, Event
 
 import datetime
@@ -40,8 +42,11 @@ def dashboard_event(request):
 	
 
 	events_orgs = Event.objects.filter(organized_by=request.user)
-	events_attend = Booking.objects.filter(user=request.user)
 	
+	# events_attend = Booking.objects.filter(user=request.user)
+
+	current_date = datetime.datetime.today().date()
+	events_attend = request.user.booking.filter(date__lte = current_date)
 	context = {
 		'events_orgs': events_orgs,
 		'events_attend': events_attend,
