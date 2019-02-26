@@ -12,7 +12,7 @@ class Event(models.Model):
     date = models.DateField()
     time = models.TimeField()
     seats = models.IntegerField()
-    ticket_left = models.IntegerField()
+    poster = models.ImageField(upload_to='event_posters', null=True)
     organized_by = models.ForeignKey(
     	User,
     	on_delete=models.CASCADE,
@@ -22,12 +22,22 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('event-detail', kwargs={'event_id': self.id})
 
+    def tickets_left(self):
+    	total_tickets = 0
+
+    	bookings = self.booking.all().values_list('ticket_num', flat = True)
+    	for ticket in bookings:
+    		total_tickets += ticket
+
+    	print("bookings - ticket_num: ", bookings)
+    	return self.seats - total_tickets
+
+
     def __str__(self):
         return self.title
     
 
 class Booking(models.Model):
-    # TODO: check if the rel. will work correctly( oneTomany vs m2m)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='booking')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='booking')
     timestamp = models.DateTimeField(auto_now_add=True)

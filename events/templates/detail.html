@@ -7,26 +7,28 @@
     <p class="card-text">{{event.description}}</p>
     <p class="card-text"> Date: {{event.date}} {{event.time}}</p>
     <p class="card-text">{{event.seats}}</p>
-    <p class="card-text">{{event.ticket_left}}</p>
+    <p class="card-text">{{event.tickets_left}}</p>
     <p class="card-text">{{event.organized_by}}</p>
     <br>
+
+    <p class="card-text">
+        <form action="{{ event_obj.get_absolute_url }}" method="POST">
+
+            {% csrf_token %}
+            {{form|crispy}}
+
+            <input type="submit" value="Book" class="btn btn-outline-info btn-block">
+        </form>
+    </p>
 
   {% if request.user.is_staff or request.user == event.organized_by %}
   
     <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
   
-  {% endif %}
   
-  <p class="card-text">
-      <form action="{{ event_obj.get_absolute_url }}" method="POST">
-
-          {% csrf_token %}
-          {{form|crispy}}
-
-          <input type="submit" value="Book" class="btn btn-outline-info btn-block">
-      </form>
-  </p>
 </div>
+
+
      <div class="card-body">
         <table class="table">
       <thead class="thead-dark">
@@ -41,19 +43,14 @@
         <tr>
           <th scope="row">{{book.user.username}}</th>
           <td>{{book.ticket_num}}</td>
-          <td>{{book.date}}  {{book.event.ticket_left}}</td>
+          <td>{{book.timestamp}}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-    </div>    
-    
-</div>
+    </div>
 
-
-
-
-
+  {% endif %}
 
 
 {% endblock %}

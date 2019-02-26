@@ -37,9 +37,6 @@ def list_event(request):
 
 def dashboard_event(request):
 	
-	print("==================")
-	print("==================")
-	print("dashboard")
 	# events_orgs = Event.objects.filter(organized_by=request.user)
 	events_orgs = request.user.organizer.all()
 	
@@ -47,7 +44,7 @@ def dashboard_event(request):
 
 	current_date = datetime.datetime.today().date()
 	# I would like to see old AND new events that I have attended
-	events_attend = request.user.booking.filter(date__lte = current_date)
+	events_attend = request.user.booking.filter(event__date__lte = current_date)
 	context = {
 		'events_orgs': events_orgs,
 		'events_attend': events_attend,
@@ -67,7 +64,7 @@ def event_detail(request , event_id):
 	# ============ POSTING ============  
 	if request.method == "POST":
 		form = BookingForm(request.POST)
-		if event_obj.ticket_left == 0:
+		if event_obj.tickets_left() == 0:
 			messages.warning(request, "No tickets left. Plsease Booked another Event")
 			return redirect('list-event')
 		if form.is_valid():
@@ -75,12 +72,11 @@ def event_detail(request , event_id):
 			booking_obj.event = event_obj
 			booking_obj.user = request.user
 			
-			if booking_obj.ticket_num > event_obj.ticket_left:
+			if booking_obj.ticket_num > event_obj.tickets_left():
 				messages.warning(request, "the number of tickets exceeded the limit")
 				return redirect(event_obj)
-
-			event_obj.ticket_left -= booking_obj.ticket_num 
-			booking_obj.event.save()
+ 
+			# booking_obj.event.save()
 			booking_obj.save()
 			return redirect('event-detail', event_id)
 	# ============ POSTING ============ 
@@ -98,41 +94,16 @@ def event_create(request):
 		return redirect('login')
 	form = EventForm()
 	if request.method == "POST":
-		form = EventForm(request.POST)
+		form = EventForm(request.POST, request.FILES)
 		if form.is_valid():
 			event_obj = form.save(commit=False)
 			event_obj.organized_by = request.user
-			event_obj.ticket_left = event_obj.seats
 			event_obj.save()
 			return redirect('home')
 	context = {
 		"form":form,
 	}
 	return render(request, 'create.html', context)
-
-
-def booking_event(request, event_id):
-	form = BookingForm()
-	event_obj = Event.objects.get(id=event_id)
-	if request.method == "POST":
-		form = BookingForm(request.POST)
-		if form.is_valid():
-			booking_obj = form.save(commit=False)
-			booking_obj.event = event_obj
-			booking_obj.user = request.user
-			if booking_obj.ticket_num > event_obj.ticket_left:
-				messages.warning(request, "the number of tickets exceeded the limit")
-				return redirect(event_obj)
-
-			event_obj.ticket_left -= booking_obj.ticket_num 
-			booking_obj.event.save()
-			booking_obj.save()
-			return redirect('event-detail', event_id)
-	context = {
-		"form":form,
-		"event": event_obj,
-	}
-	return render(request, 'booking.html', context)
 
 
 class Signup(View):
@@ -179,11 +150,11 @@ class Login(View):
 			if auth_user is not None:
 				login(request, auth_user)
 				print("4=========auth_user========")
-				# if request.user.organizer.all().exist():
-				# 	return redirect('dashboard')
-				# else:
-				# 	return redirect('list-event')
-				print("request.user.organizer.all().exist(),",request.user.organizer)
+				if request.user.organizer.all().exists():
+					return redirect('dashboard')
+				else:
+					return redirect('list-event')
+				# print("request.user.organizer.all().exist(),",request.user.organizer)
 
 				messages.success(request, "Welcome Back! %s" %(request.user.username))
 				
@@ -210,10 +181,10 @@ def update_event(request, event_id):
 	event_form = EventForm(instance=event)
 	if request.method == 'POST':
 		print('update - POST')
-		event_form = EventForm(request.POST, instance=event)
-		if form.is_valid():
+		event_form = EventForm(request.POST, request.FILES, instance=event)
+		if event_form.is_valid():
 			print('update - is_valid')
-			form.save()
+			event_form.save()
 			return redirect('event-detail', event_id)
 
 	context = {

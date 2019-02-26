@@ -24,10 +24,10 @@ class EventForm(forms.ModelForm):
         exclude = ['ticket_left', 'organized_by']
 
         widgets = {
-                # 'date': forms.DateInput(attrs={'type': 'date'}),
-                'date': forms.DateInput(format='%b %d, %Y'), # oct 12, 2019
-                # 'time': forms.DateInput(attrs={'type': 'time'}),
-                'time': forms.TimeInput(format='%I: %M %p'), # 12hr: m am/pm
+                'date': forms.DateInput(attrs={'type': 'date'}),
+                # 'date': forms.DateInput(format='%b %d, %Y'), # oct 12, 2019
+                'time': forms.DateInput(attrs={'type': 'time'}),
+                # 'time': forms.TimeInput(format='%I: %M %p'), # 12hr: m am/pm
         }
 
 class BookingForm(forms.ModelForm):
