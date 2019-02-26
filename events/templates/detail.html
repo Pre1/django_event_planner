@@ -11,41 +11,44 @@
     <p class="card-text">{{event.organized_by}}</p>
     <br>
 
-  <a href="{% url 'booking-event' event.id %}" class="btn btn-outline-info btn-block">Book</a>
+  {% if request.user.is_staff or request.user == event.organized_by %}
+  
+    <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
+  
+  {% endif %}
+  
   <p class="card-text">
-      <form action="{% url 'booking-event' event.id %}" method="POST" enctype="multipart/form-data">
+      <form action="{{ event_obj.get_absolute_url }}" method="POST">
+
           {% csrf_token %}
           {{form|crispy}}
+
           <input type="submit" value="Book" class="btn btn-outline-info btn-block">
       </form>
   </p>
 </div>
- <div class="card-body">
-    <table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">User</th>
-      <th scope="col">Tickets</th>
-      <th scope="col">Date and Time of Booking</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for book in booking %}
-    <tr>
-      <th scope="row">{{book.user.username}}</th>
-      <td>{{book.ticket_num}}</td>
-      <td>{{book.date}}  {{book.event.ticket_left}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-</div>
-
-    {% if request.user.is_staff or request.user == event.organized_by %}
-    <a href="{% url 'event-update' event.id %}" class="btn btn-outline-info btn-block">Update</a>
-    {% endif %}
+     <div class="card-body">
+        <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col">Tickets</th>
+          <th scope="col">Date and Time of Booking</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in booking %}
+        <tr>
+          <th scope="row">{{book.user.username}}</th>
+          <td>{{book.ticket_num}}</td>
+          <td>{{book.date}}  {{book.event.ticket_left}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>    
     
-  </div>
+</div>
 
 
 

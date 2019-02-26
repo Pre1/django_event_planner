@@ -8,12 +8,15 @@ from django.db.models import Q
 
 from .models import Booking, Event
 
+import datetime
+
 def home(request):
 	events = Event.objects.all()[:10]
 	context = {
 		"events": events 
 	}
 	return render(request, 'home.html', context)
+
 
 def list_event(request):
 	upcoming_dates = datetime.datetime.today().date()
@@ -50,15 +53,39 @@ def dashboard_event(request):
 
 
 def event_detail(request , event_id):
-   event_obj = Event.objects.get(id=event_id)
-   booking_obj = Booking.objects.filter(event=event_obj)
+	event_obj = Event.objects.get(id=event_id)
+	booking_obj = Booking.objects.filter(event=event_obj)
+	form = BookingForm()
+	
 
-   context = {
+	# ============ POSTING ============  
+	if request.method == "POST":
+		form = BookingForm(request.POST)
+		if event_obj.ticket_left == 0:
+			messages.warning(request, "No tickets left. Plsease Booked another Event")
+			return redirect('list-event')
+		if form.is_valid():
+			booking_obj = form.save(commit=False)
+			booking_obj.event = event_obj
+			booking_obj.user = request.user
+			
+			if booking_obj.ticket_num > event_obj.ticket_left:
+				messages.warning(request, "the number of tickets exceeded the limit")
+				return redirect(event_obj)
 
-	"event" : event_obj,
-	"booking": booking_obj,
-   }
-   return render(request, 'detail.html', context)
+			event_obj.ticket_left -= booking_obj.ticket_num 
+			booking_obj.event.save()
+			booking_obj.save()
+			return redirect('event-detail', event_id)
+	# ============ POSTING ============ 
+
+	context = {
+		"form":form,
+		"event" : event_obj,
+		"booking": booking_obj,
+	}
+	return render(request, 'detail.html', context)
+
 
 def event_create(request):
 	if request.user.is_anonymous:
@@ -80,29 +107,24 @@ def event_create(request):
 
 def booking_event(request, event_id):
 	form = BookingForm()
-	event = Event.objects.get(id=event_id)
-	num_objects = event.ticket_left
+	event_obj = Event.objects.get(id=event_id)
 	if request.method == "POST":
 		form = BookingForm(request.POST)
 		if form.is_valid():
-			event_obj = form.save(commit=False)
-			if num_objects >= 1:
-				print(event.ticket_left)
-				print(event_obj.ticket_num)
-				num_objects -= event_obj.ticket_num
-				event.ticket_left = num_objects
-				print(num_objects)
-				print(event.ticket_left)
-			else:
-				print("notwork")
-			event_obj.event = event
-			event_obj.user = request.user
-			event.ticket_left = event.ticket_left-event_obj.ticket_num
-			event_obj.save()
+			booking_obj = form.save(commit=False)
+			booking_obj.event = event_obj
+			booking_obj.user = request.user
+			if booking_obj.ticket_num > event_obj.ticket_left:
+				messages.warning(request, "the number of tickets exceeded the limit")
+				return redirect(event_obj)
+
+			event_obj.ticket_left -= booking_obj.ticket_num 
+			booking_obj.event.save()
+			booking_obj.save()
 			return redirect('event-detail', event_id)
 	context = {
 		"form":form,
-		"event": event,
+		"event": event_obj,
 	}
 	return render(request, 'booking.html', context)
 
