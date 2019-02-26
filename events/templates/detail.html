@@ -23,7 +23,17 @@
           {% csrf_token %}
           {{form|crispy}}
 
-          <input type="submit" value="Book" class="btn btn-outline-info btn-block">
+          <input type="submit" 
+          value="{% if event.ticket_left == 0 %}
+            Full
+          {% else %}
+            Book
+          {% endif %}" class="btn btn-outline-info" 
+          disabled="{% if event.ticket_left == 0 %}
+            disabled
+          {% endif %}" alt="{% if event.ticket_left == 0 %}
+            it is full
+          {% endif %}">
       </form>
   </p>
 </div>

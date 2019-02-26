@@ -42,8 +42,6 @@ def dashboard_event(request):
 	
 
 	events_orgs = Event.objects.filter(organized_by=request.user)
-	
-	# events_attend = Booking.objects.filter(user=request.user)
 
 	current_date = datetime.datetime.today().date()
 	events_attend = request.user.booking.filter(date__lte = current_date)
