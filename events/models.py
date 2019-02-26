@@ -28,6 +28,7 @@ class Event(models.Model):
     	bookings = self.booking.all().values_list('ticket_num', flat = True)
     	for ticket in bookings:
     		total_tickets += ticket
+            
     	return self.seats - total_tickets
 
 

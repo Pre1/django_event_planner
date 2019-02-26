@@ -21,13 +21,11 @@ class UserLogin(forms.Form):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        exclude = ['organized_by']
+        exclude = ['organized_by',]
 
         widgets = {
                 'date': forms.DateInput(attrs={'type': 'date'}),
-                # 'date': forms.DateInput(format='%b %d, %Y'), # oct 12, 2019
                 'time': forms.DateInput(attrs={'type': 'time'}),
-                # 'time': forms.TimeInput(format='%I: %M %p'), # 12hr: m am/pm
         }
 
 class BookingForm(forms.ModelForm):
