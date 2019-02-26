@@ -9,7 +9,7 @@ from .views import (
 	event_create,
 	dashboard_event,
     booking_event,
-
+    list_event,
 )
 
 urlpatterns = [
@@ -26,6 +26,9 @@ urlpatterns = [
     path('<int:event_id>/booking/', booking_event, name='booking-event'),
     
     path('dashboard/', dashboard_event, name='dashboard'),
+    
+    # a list page that'll list all upcoming events 
+    path('list/', list_event, name='list-event'),
 
 
 ]
