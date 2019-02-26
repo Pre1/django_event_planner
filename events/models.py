@@ -9,6 +9,7 @@ from django.urls import reverse
 class Event(models.Model):
 
     title = models.CharField(max_length=20)
+    location = models.CharField(max_length=120)
     description = models.TextField()
     date = models.DateField()
     time = models.TimeField()
@@ -31,5 +32,9 @@ class Booking(models.Model):
     date = models.DateField(default=timezone.now)
     time = models.TimeField(default=timezone.now)
     ticket_num = models.IntegerField()
+
+
+    def __str__(self):
+    	return "user: {} - Event: {}".format(self.user.username, self.event.title) 
 
 
