@@ -24,7 +24,6 @@ urlpatterns = [
     path('<int:event_id>/update/', update_event, name='event-update'),
 
     path('<int:event_id>/booking/', booking_event, name='booking-event'),
-
     
     path('dashboard/', dashboard_event, name='dashboard'),
 

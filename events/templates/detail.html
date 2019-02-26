@@ -7,15 +7,16 @@
     <p class="card-text">{{event.description}}</p>
     <p class="card-text"> Date: {{event.date}} {{event.time}}</p>
     <p class="card-text">{{event.seats}}</p>
+    <p class="card-text">{{event.ticket_left}}</p>
     <p class="card-text">{{event.organized_by}}</p>
     <br>
 
-  <a href="{% url 'booking-event' event.id %}" class="btn btn-outline-info btn-block">booking</a>
+  <a href="{% url 'booking-event' event.id %}" class="btn btn-outline-info btn-block">Book</a>
   <p class="card-text">
       <form action="{% url 'booking-event' event.id %}" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {{form|crispy}}
-          <input type="submit" value="Create" class="btn btn-outline-info btn-block">
+          <input type="submit" value="Book" class="btn btn-outline-info btn-block">
       </form>
   </p>
 </div>
@@ -33,7 +34,7 @@
     <tr>
       <th scope="row">{{book.user.username}}</th>
       <td>{{book.ticket_num}}</td>
-      <td>{{book.date}}  {{book.time}}</td>
+      <td>{{book.date}}  {{book.event.ticket_left}}</td>
     </tr>
     {% endfor %}
   </tbody>
@@ -45,5 +46,11 @@
     {% endif %}
     
   </div>
+
+
+
+
+
+
 
 {% endblock %}

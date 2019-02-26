@@ -13,8 +13,7 @@
         <form action="{% url 'booking-event' event.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{form|crispy}}
-            <input type="submit" value="Create" class="btn btn-outline-success">
-            <input type="submit" value="Create" class="btn btn-outline-success">
+            <input type="submit" value="Book" class="btn btn-outline-success">
         </form>
     </p>
   </div>
