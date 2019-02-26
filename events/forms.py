@@ -34,8 +34,3 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['ticket_num',]
-
-        widgets = {
-                'date': forms.DateInput(format='%b %d, %Y'), # oct 12, 2019,
-                'time': forms.TimeInput(format='%I: %M %p'), # 12hr: m am/pm,
-        }        

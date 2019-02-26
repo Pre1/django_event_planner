@@ -5,9 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 
 
-
 class Event(models.Model):
-
     title = models.CharField(max_length=20)
     location = models.CharField(max_length=120)
     description = models.TextField()
@@ -15,7 +13,11 @@ class Event(models.Model):
     time = models.TimeField()
     seats = models.IntegerField()
     ticket_left = models.IntegerField()
-    organized_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    organized_by = models.ForeignKey(
+    	User,
+    	on_delete=models.CASCADE,
+    	default=1,
+    	related_name='organizer')
 
     def get_absolute_url(self):
         return reverse('event-detail', kwargs={'event_id': self.id})
@@ -24,13 +26,11 @@ class Event(models.Model):
         return self.title
     
 
-
 class Booking(models.Model):
     # TODO: check if the rel. will work correctly( oneTomany vs m2m)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='booking')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='booking')
-    date = models.DateField(default=timezone.now)
-    time = models.TimeField(default=timezone.now)
+    timestamp = models.DateTimeField(auto_now_add=True)
     ticket_num = models.IntegerField()
 
 

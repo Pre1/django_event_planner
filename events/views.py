@@ -5,15 +5,12 @@ from .forms import UserSignup, UserLogin, EventForm ,BookingForm
 from django.contrib import messages
 from django.http import Http404
 from django.db.models import Q
-
 import datetime
-
 from .models import Booking, Event
 
-import datetime
-
 def home(request):
-	events = Event.objects.all()[:10]
+	today = datetime.datetime.today().date()
+	events = Event.objects.filter(date__gte = today)[:10]
 	context = {
 		"events": events 
 	}
@@ -21,8 +18,8 @@ def home(request):
 
 
 def list_event(request):
-	upcoming_dates = datetime.datetime.today().date()
-	events = Event.objects.all().filter(date__gte = upcoming_dates)
+	today = datetime.datetime.today().date()
+	events = Event.objects.filter(date__gte = today)
 	query = request.GET.get('search')
 	if query:
 		events = events.filter(
@@ -40,12 +37,16 @@ def list_event(request):
 
 def dashboard_event(request):
 	
-
-	events_orgs = Event.objects.filter(organized_by=request.user)
+	print("==================")
+	print("==================")
+	print("dashboard")
+	# events_orgs = Event.objects.filter(organized_by=request.user)
+	events_orgs = request.user.organizer.all()
 	
 	# events_attend = Booking.objects.filter(user=request.user)
 
 	current_date = datetime.datetime.today().date()
+	# I would like to see old AND new events that I have attended
 	events_attend = request.user.booking.filter(date__lte = current_date)
 	context = {
 		'events_orgs': events_orgs,
@@ -59,7 +60,7 @@ def dashboard_event(request):
 
 def event_detail(request , event_id):
 	event_obj = Event.objects.get(id=event_id)
-	booking_obj = Booking.objects.filter(event=event_obj)
+	booking_obj = event_obj.booking.all()
 	form = BookingForm()
 	
 
@@ -156,15 +157,19 @@ class Signup(View):
 
 
 class Login(View):
+	print('User events:', )
 	form_class = UserLogin
 	template_name = 'login.html'
 
 	def get(self, request, *args, **kwargs):
+		
+		
 		form = self.form_class()
 		return render(request, self.template_name, {'form': form})
 
 	def post(self, request, *args, **kwargs):
 		form = self.form_class(request.POST)
+
 		if form.is_valid():
 
 			username = form.cleaned_data['username']
@@ -173,34 +178,19 @@ class Login(View):
 			auth_user = authenticate(username=username, password=password)
 			if auth_user is not None:
 				login(request, auth_user)
-				messages.success(request, "Welcome Back!")
-				return redirect('dashboard')
+				print("4=========auth_user========")
+				# if request.user.organizer.all().exist():
+				# 	return redirect('dashboard')
+				# else:
+				# 	return redirect('list-event')
+				print("request.user.organizer.all().exist(),",request.user.organizer)
+
+				messages.success(request, "Welcome Back! %s" %(request.user.username))
+				
+
 			messages.warning(request, "Wrong email/password combination. Please try again.")
 			return redirect("login")
-		messages.warning(request, form.errors)
-		return redirect("login")
-	form_class = UserLogin
-	template_name = 'login.html'
 
-	def get(self, request, *args, **kwargs):
-		form = self.form_class()
-		return render(request, self.template_name, {'form': form})
-
-	def post(self, request, *args, **kwargs):
-		form = self.form_class(request.POST)
-		if form.is_valid():
-
-			username = form.cleaned_data['username']
-			password = form.cleaned_data['password']
-
-			auth_user = authenticate(username=username, password=password)
-			if auth_user is not None:
-				login(request, auth_user)
-				messages.success(request, "Welcome Back!")
-				# if request.user.
-				return redirect('dashboard')
-			messages.warning(request, "Wrong email/password combination. Please try again.")
-			return redirect("login")
 		messages.warning(request, form.errors)
 		return redirect("login")
 
