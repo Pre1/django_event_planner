@@ -81,6 +81,40 @@
           </tbody>
         </table>
 
+
+        <h3 class="text-left">Upcoming Events</h4>
+        <hr>
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              
+              <th scope="col">Title</th>
+              <th scope="col">Date</th>
+              <th scope="col">Location</th>
+              <th scope="col">Tickets</th>
+              <th scope="col">More Info</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for eve in events_upcoming %}
+              
+              <tr>
+
+                <td>{{eve.event.title}}</td>
+                <td>{{eve.timestamp}}</td>
+                
+                <td>{{eve.event.location}}</td>
+                <td>{{eve.event.tickets_left}}</td>
+                
+              <td>
+                <a href="{{ eve.event.get_absolute_url }}" class="btn mx-1" style="background-color: #000034; color: white;">View</a>
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
     </div>
   </div>
   <div class="bg-circle-1 bg-circle"></div>

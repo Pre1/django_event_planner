@@ -45,9 +45,11 @@ def dashboard_event(request):
 	current_date = datetime.datetime.today().date()
 	# I would like to see old AND new events that I have attended
 	events_attend = request.user.booking.filter(event__date__lte = current_date)
+	events_upcoming = request.user.booking.filter(event__date__gte= current_date)
 	context = {
 		'events_orgs': events_orgs,
 		'events_attend': events_attend,
+		'events_upcoming': events_upcoming,
 	}
 
 

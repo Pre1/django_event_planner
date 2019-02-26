@@ -28,8 +28,6 @@ class Event(models.Model):
     	bookings = self.booking.all().values_list('ticket_num', flat = True)
     	for ticket in bookings:
     		total_tickets += ticket
-
-    	print("bookings - ticket_num: ", bookings)
     	return self.seats - total_tickets
 
 
