@@ -19,3 +19,124 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.card-img-top {
+  border-radius: 4px;
+  border-bottom: dotted 0.5px;
+  display: block 0.50px;
+  border-color: #CFD6AD;
+  height: 25vw;
+  width: 99.4%;
+  object-fit: cover;
+  -moz-transition: -moz-transform 0.2s ease;
+  -webkit-transition: -webkit-transform 0.2s ease;
+  -ms-transition: -ms-transform 0.2s ease;
+  transition: transform 0.2s ease;
+} 
+.card {
+  margin: 20px 10px 50px 10px ; 
+  border:0.5px;
+  background: #f8f9fa;
+  opacity: 0.9;
+
+}
+
+.container{
+  margin-top: 50px;
+
+}
+
+.position-absolute{
+  left: 0;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+.card-text{
+  color: #CFD6AD;
+}
+
+.hi{
+   text-transform: uppercase;
+   color: #CFD6AD;
+}
+
+.btnr {
+  background-color: #f8f9fa;
+  color: #444444;
+  border: 0.3px solid #f8f9fa;
+  text-transform: uppercase;
+  letter-spacing: 0.325em;
+  font-size: 0.725em;
+  margin: 0.5em 0.5em 0.5em 0em;
+}
+.btn:hover {
+  border-color: #EF6480;
+  color:  #EF6480 ;
+
+}
+
+.img1:hover .card-img-top {
+ -moz-transform: scale(1.01);
+ -webkit-transform: scale(1.01);
+ -ms-transform: scale(1.01);
+  transform: scale(1.009);
+  opacity: 0.7;
+  filter: grayscale(70%)
+}
+
+
+.img-fluid{
+  border-radius: 4px;
+  border-bottom: dotted 0.5px;
+  display: block 0.50px;
+  border-color: #CFD6AD;
+  height: 40%;
+  width: 100%;
+  margin-bottom:50px;
+
+}
+
+.showsl{
+  border-radius: 4px;
+  border-bottom: dotted 0.5px;
+  display: block 0.50px;
+  border-color: #CFD6AD;
+  height: 370px;
+  width: 80%;
+}
+.alert1 {
+  height: 400px;
+  width: 90%;
+  opacity: 1.7;
+  margin-left: 50px;
+}
+.img-fluid1{
+  border-radius: 4px;
+  display: block 0.50px;
+  border-color: #CFD6AD;
+  height: 800px;
+  width: 100%;
+  margin-bottom:50px;
+  object-fit: contain;
+}
+
+.butt{
+margin-top: 500px;
+
+}
+
+
+.datesize{
+  font-size: 12px;
+} 
+
+.back{
+  background-color:rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+  border: 0.05px;
+}
+

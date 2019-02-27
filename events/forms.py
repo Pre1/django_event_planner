@@ -25,7 +25,7 @@ class EventForm(forms.ModelForm):
 
         widgets = {
                 'date': forms.DateInput(attrs={'type': 'date'}),
-                'time': forms.DateInput(attrs={'type': 'time'}),
+                'time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
 class BookingForm(forms.ModelForm):

@@ -31,7 +31,7 @@
                         <td>{{eve.seats}}</td>
                         <td>{{eve.tickets_left}}</td>
                         <td>
-                            <a href="{{ eve.get_absolute_url }}" class="btn mx-1" style="background-color: #000034; color: white;">View</a>
+                            <a href="{{ eve.get_absolute_url }}" class="btn btnr mx-1">View</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -57,11 +57,11 @@
                     {% for eve in events_attend %}
                     <tr>
                         <td>{{eve.event.title}}</td>
-                        <td>{{eve.timestamp}}</td>
+                        <td>{{eve.event.date}},{{eve.event.time}}</td>
                         <td>{{eve.event.location}}</td>
                         <td>{{eve.event.tickets_left}}</td>
                         <td>
-                            <a href="{{ eve.event.get_absolute_url }}" class="btn mx-1" style="background-color: #000034; color: white;">View</a>
+                            <a href="{{ eve.event.get_absolute_url }}" class="btn btnr mx-1">View</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -89,13 +89,12 @@
               <tr>
 
                 <td>{{eve.event.title}}</td>
-                <td>{{eve.timestamp}}</td>
-                
+                <td>{{eve.event.date}},{{eve.event.time}}</td>
                 <td>{{eve.event.location}}</td>
                 <td>{{eve.event.tickets_left}}</td>
                 
               <td>
-                <a href="{{ eve.event.get_absolute_url }}" class="btn mx-1" style="background-color: #000034; color: white;">View</a>
+                <a href="{{ eve.event.get_absolute_url }}" class="btn btnr mx-1" >View</a>
               </td>
             </tr>
             {% endfor %}

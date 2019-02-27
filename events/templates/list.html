@@ -2,6 +2,10 @@
 
 {% block content %}
 <header class="masthead text-center text-white">
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
   <div class="masthead-content">
     <div class="container">
       <h1 class="masthead-heading mb-0">All the events,</h1>
@@ -16,7 +20,7 @@
 
                 <div class="input-group-append">
                     
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">Search <i class="fas fa-search"></i></button>
+                    <button class="btn btnr my-2 my-sm-0" type="submit">Search <i class="fas fa-search"></i></button>
 
                 </div>
           </div>
@@ -30,25 +34,31 @@
   <div class="bg-circle-2 bg-circle"></div>
   <div class="bg-circle-3 bg-circle"></div>
   <div class="bg-circle-4 bg-circle"></div>
-</header>
 
 
 
-
-<div class="row my-3">
-  {% for event in events %}
-<div class="col-12 col-sm-6 col-md-3">
-  <div class="card m-2">
-    <div class="card-body">
-      
-      <h5 class="card-title">{{event.title}}</h5>
-      <p class="card-text">Date: {{event.date}}</p>
-      <p class="card-text">time: {{event.time}}</p>
-      <p class="card-text">Organized By: {{event.organized_by}}</p>
-      <a href="{{event.get_absolute_url}}" class="btn" style="background-color: #e3f2fd; color: black;">More Info</a>
+  <div class="container">
+    <div class="alert alert-light" role="alert">
+    <div class="row">
+      {% for event in events %} 
+        <div class="col-6 text-center" >
+          <div class="card">
+               <div class="img1">
+              <a href="{{event.get_absolute_url}}"><img class="card-img-top" src="{{event.poster.url}}" alt="Card image cap"/></a></div>
+              <h5 class="card-title position-absolute">{{event.title}}</h5>
+            
+            <div class="card-body">
+                <h5 class="card-title hi">{{event.title}}</h5>
+                <p class="card-text">Date: {{event.date}}</p>
+                <p class="card-text">time: {{event.time}}</p>
+                <p class="card-text">Organized By: {{event.organized_by}}</p>
+                <a href="{{event.get_absolute_url}}" class="btn btnr">More Info</a>  
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
-</div>  
-{% endfor %}
-
+  </div>
+</header>
 {% endblock %}
