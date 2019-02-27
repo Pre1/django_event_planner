@@ -53,13 +53,13 @@ def dashboard_event(request):
 
 def profile(request):
 	user_obj = User.objects.get(id=request.user)
-	user_events = user.organizer.all()
-	
+	user_events = user_obj.organizer.all()
 	context = {
 		'user': user_obj		
 	}
 
 	return  render(request, 'profile', context)
+
 
 def event_detail(request , event_id):
 	event_obj = Event.objects.get(id=event_id)
@@ -174,8 +174,7 @@ class Logout(View):
 		messages.success(request, "You have successfully logged out.")
 		return redirect("login")
 
-
-
+def update_event(request):
 	event = Event.objects.get(id=event_id)
 
 	if not(request.user.is_staff or request.user == event.organized_by):

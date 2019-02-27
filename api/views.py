@@ -6,7 +6,7 @@ from rest_framework.generics import (
 	CreateAPIView,
 )
 
-from events.models import Event
+from events.models import Event, Booking
 from django.contrib.auth.models import User
 
 
@@ -18,6 +18,7 @@ from .serializers import (
 	EventBookingListSerializer,
 	EventBookSerializer,
 	EventUsersBookingListSerializers,
+	BookedEventSerializer,
 )
 
 import datetime
@@ -80,12 +81,24 @@ class EventUpdate(RetrieveUpdateAPIView):
 	permission_classes = [IsEventOrg,]	
 
 
-class BookEvent(CreateAPIView):
-	serializer_class = EventBookSerializer
+class BookEvent(RetrieveUpdateAPIView):
+	serializer_class = BookedEventSerializer
 	permission_classes = [IsAuthenticated,]
+	queryset = Booking.objects.all()
+	lookup_field = 'id'
+	lookup_url_kwarg = 'event_id'
 
 	def perform_create(self, serializer):
 		serializer.save()
+
+	def get_queryset(self):
+		print("==================")
+		print("==================")
+		print("self", self.kwargs.get('event_id'))
+		id = self.kwargs.get('event_id')
+		eve = Event.objects.get(id=id)
+		print("event", eve.booking.all())
+		return eve.booking.all()
 
 
 class RegisterView(CreateAPIView):

@@ -19,6 +19,10 @@ class EventListSerializer(serializers.ModelSerializer):
 		model = Event
 		fields = ['id', 'title', 'date', 'detail', ]
 
+class BookedEventSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Booking
+		fields = ['ticket_num']
 
 class EventBookSerializer(serializers.ModelSerializer):
 	user = UserSerializer()
