@@ -39,12 +39,14 @@ class EventDetail(RetrieveAPIView):
 	serializer_class = EventDetailSerializer
 	permission_classes = [IsAuthenticated,]
 
+
 class EventOrganizerList(ListAPIView):
 	serializer_class = EventListSerializer
 	permission_classes = [IsAuthenticated,]
 	def get_queryset(self):
 		user = self.request.user
 		return user.organizer.all()
+
 
 class EventBookingList(ListAPIView):
 	serializer_class = EventBookingListSerializer
@@ -53,12 +55,14 @@ class EventBookingList(ListAPIView):
 		user = self.request.user
 		return user.booking.all()
 
+
 class EventUsersBookingList(RetrieveAPIView):
 	queryset = Event.objects.all()
 	serializer_class = EventUsersBookingListSerializers
 	permission_classes = [IsAuthenticated,]
 	lookup_field = 'id'
 	lookup_url_kwarg = 'event_id'
+
 
 class EventCreate(CreateAPIView):
 	serializer_class = EventListSerializer

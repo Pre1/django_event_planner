@@ -32,9 +32,6 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['ticket_num',]
-        # widgets={
-        #     'ticket_num': forms.NumberInput(attrs={'min': 0, 'max': booking.seats}),
-        # }
 
 
 
