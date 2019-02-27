@@ -10,6 +10,7 @@ from .views import (
 	dashboard_event,
     list_event,
     profile,
+    profile_update,
     cancelBooking,
 )
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('dashboard/cancel_booking/<int:event_id>/', cancelBooking, name='event-cancel'),
     
     path('list/', list_event, name='list-event'),
+    path('profile/update', profile_update, name='profile-update'),
     path('profile/', profile, name='profile'),
 
 

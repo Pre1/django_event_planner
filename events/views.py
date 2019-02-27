@@ -51,7 +51,15 @@ def dashboard_event(request):
 
 	return  render(request, 'dashboard.html', context)
 
+def profile(request):
+	user_obj = User.objects.get(id=request.user)
+	user_events = user.organizer.all()
+	
+	context = {
+		'user': user_obj		
+	}
 
+	return  render(request, 'profile', context)
 
 def event_detail(request , event_id):
 	event_obj = Event.objects.get(id=event_id)
@@ -167,7 +175,7 @@ class Logout(View):
 		return redirect("login")
 
 
-def update_event(request, event_id):
+
 	event = Event.objects.get(id=event_id)
 
 	if not(request.user.is_staff or request.user == event.organized_by):
@@ -188,7 +196,7 @@ def update_event(request, event_id):
 	return  render(request, 'update.html', context)
 
 
-def profile(request):
+def profile_update(request):
 	user = User.objects.get(username=request.user)
 
 	if request.user.is_anonymous:
@@ -209,7 +217,7 @@ def profile(request):
 		'form': user_form,
 	}
 
-	return  render(request, 'profile.html', context)
+	return  render(request, 'profile_update.html', context)
 
 
 def cancelBooking(request, event_id):
