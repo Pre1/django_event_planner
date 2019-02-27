@@ -24,9 +24,9 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="#">{{ request.user }}</a>
+            <a class="nav-link" href="{% url 'profile' %}">{{ request.user }}</a>
           </li>
-          
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
           </li>

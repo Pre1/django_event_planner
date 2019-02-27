@@ -9,6 +9,8 @@ from .views import (
 	event_create,
 	dashboard_event,
     list_event,
+    profile,
+    cancelBooking,
 )
 
 urlpatterns = [
@@ -23,8 +25,10 @@ urlpatterns = [
     path('<int:event_id>/update/', update_event, name='event-update'),
     
     path('dashboard/', dashboard_event, name='dashboard'),
+    path('dashboard/cancel_booking/<int:event_id>/', cancelBooking, name='event-cancel'),
     
     path('list/', list_event, name='list-event'),
+    path('profile/', profile, name='profile'),
 
 
 ]

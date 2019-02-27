@@ -96,6 +96,9 @@
                 
               <td>
                 <a href="{{ eve.event.get_absolute_url }}" class="btn mx-1" style="background-color: #000034; color: white;">View</a>
+
+                <a href="{% url 'event-cancel' eve.event.id %}" class="btn mx-1" style="background-color: #000034; color: white;">Cancel</a>
+
               </td>
             </tr>
             {% endfor %}

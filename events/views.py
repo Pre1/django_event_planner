@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin, EventForm ,BookingForm
+from .forms import UserSignup, UserLogin, EventForm, BookingForm, ProfileForm
 from django.contrib import messages
 from django.http import Http404
 from django.db.models import Q
-import datetime
-from .models import Booking, Event
+from datetime import datetime
+from .models import Booking, Event, User
 
 def home(request):
-	today = datetime.datetime.today().date()
+	today = datetime.today().date()
 	events = Event.objects.filter(date__gte = today)[:10]
 	context = {
 		"events": events 
@@ -18,7 +18,7 @@ def home(request):
 
 
 def list_event(request):
-	today = datetime.datetime.today().date()
+	today = datetime.today().date()
 	events = Event.objects.filter(date__gte = today)
 	query = request.GET.get('search')
 	if query:
@@ -39,7 +39,7 @@ def dashboard_event(request):
 
 
 	events_orgs = request.user.organizer.all()
-	current_date = datetime.datetime.today().date()
+	current_date = datetime.today().date()
 	events_attend = request.user.booking.filter(event__date__lte = current_date)
 	events_upcoming = request.user.booking.filter(event__date__gte= current_date)
 
@@ -148,12 +148,10 @@ class Login(View):
 			auth_user = authenticate(username=username, password=password)
 			if auth_user is not None:
 				login(request, auth_user)
-				print("4=========auth_user========")
 				if request.user.organizer.all().exists():
 					return redirect('dashboard')
 				else:
 					return redirect('list-event')
-				# print("request.user.organizer.all().exist(),",request.user.organizer)
 
 				messages.success(request, "Welcome Back! %s" %(request.user.username))
 				
@@ -179,10 +177,8 @@ def update_event(request, event_id):
 
 	event_form = EventForm(instance=event)
 	if request.method == 'POST':
-		print('update - POST')
 		event_form = EventForm(request.POST, request.FILES, instance=event)
 		if event_form.is_valid():
-			print('update - is_valid')
 			event_form.save()
 			return redirect('event-detail', event_id)
 
@@ -193,4 +189,50 @@ def update_event(request, event_id):
 
 	return  render(request, 'update.html', context)
 
+
+def profile(request):
+	user = User.objects.get(username=request.user)
+
+	if request.user.is_anonymous:
+		return redirect('login')
+
+	user_form = ProfileForm(instance=user)
+
+	if request.method == 'POST':
+		user_form = EventForm(request.POST, request.FILES, instance=event)
+		if user_form.is_valid():
+			user = user_form.save(commit=False)
+			user.set_password(user.password)
+			user.save()
+			return redirect('home')
+
+	context = {
+		'user': user,
+		'form': user_form,
+	}
+
+	return  render(request, 'profile.html', context)
+
+
+
+
+def cancelBooking(request, event_id):
+	event_obj = Event.objects.get(id=event_id)
+	today_datetime = datetime.today()
+
+	# current time + 3 hrs
+	time_cond = datetime.combine(today_datetime, today_datetime.time()) + timedelta(hours=3)
+	eve_datetime = datetime.combine(event_obj.date, event_obj.time) 
+	# if event_obj.date == today.date() and time_cond < event_obj.time:
+	if  time_cond < eve_datetime:
+		messages.success(request, "{} has been canceled".format(event_obj.title))
+		event_obj.delete()
+		return redirect('dashboard')
+	
+	msg = """
+	can't be canceled, you can only cancel an event 3 hrs before
+	its opening...
+	"""
+	messages.warning(request, "{} {}".format(event_obj.title, msg))
+	return redirect('dashboard')
 

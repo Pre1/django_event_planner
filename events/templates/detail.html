@@ -12,10 +12,10 @@
     <br>
 
     <p class="card-text">
-        <form action="{{ event_obj.get_absolute_url }}" method="POST">
+        <form action="{{ event.get_absolute_url }}" method="POST">
 
             {% csrf_token %}
-            {{form|crispy}}
+            <input type="number" name="ticket_num" class="numberinput form-control" required="" id="id_ticket_num" min=1 max={{event.tickets_left}}>
 
             <input type="submit" value="Book" class="btn btn-outline-info btn-block" {% if event.tickets_left == 0 %} disabled{% endif %}>
         </form>
