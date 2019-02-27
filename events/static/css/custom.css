@@ -118,9 +118,9 @@ body {
   border-radius: 4px;
   display: block 0.50px;
   border-color: #CFD6AD;
-  height: 800px;
+  height: 650px;
   width: 100%;
-  margin-bottom:50px;
+  margin-top:10px;
   object-fit: contain;
 }
 
@@ -140,3 +140,18 @@ margin-top: 500px;
   border: 0.05px;
 }
 
+
+.textpadding{
+  padding: 8px;
+}
+
+.fcontrol{
+  width: 40%;
+  left: 300px;
+  position:relative;
+}
+
+.l{
+
+  left: 50px;
+}

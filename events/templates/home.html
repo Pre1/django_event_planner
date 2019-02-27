@@ -24,6 +24,7 @@
 <div class="container text-center">
   <div class="alert alert-light back" role="alert">
       <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+
       <ol class="carousel-indicators">
       {% for event in events %}
         <li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"
@@ -33,6 +34,7 @@
 
       {% endfor %}
     </ol>
+
           <div class="carousel-inner">
             {% for event in events %}
              <div class="carousel-item {% if forloop.first %} active {% endif %}" id="slide{{ forloop.counter }}">

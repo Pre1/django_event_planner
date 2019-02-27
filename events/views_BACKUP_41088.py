@@ -52,15 +52,21 @@ def dashboard_event(request):
 	return  render(request, 'dashboard.html', context)
 
 def profile(request):
+<<<<<<< HEAD
+	user_obj = User.objects.get(id=request.user)
+	user_events = user_obj.organizer.all()
+=======
 	user_obj = User.objects.get(id=request.user.id)
 	user_events = user_obj.organizer.all()
 	
+>>>>>>> 4bef21e3ac02b9c26989615f19f314482d504bef
 	context = {
 		'user': user_obj ,
 		'events': user_events,
 	}
 
 	return  render(request, 'profile.html', context)
+
 
 def event_detail(request , event_id):
 	event_obj = Event.objects.get(id=event_id)
@@ -175,7 +181,11 @@ class Logout(View):
 		messages.success(request, "You have successfully logged out.")
 		return redirect("login")
 
+<<<<<<< HEAD
+def update_event(request):
+=======
 def update_event(request, event_id):
+>>>>>>> 4bef21e3ac02b9c26989615f19f314482d504bef
 	event = Event.objects.get(id=event_id)
 
 	if not(request.user.is_staff or request.user == event.organized_by):

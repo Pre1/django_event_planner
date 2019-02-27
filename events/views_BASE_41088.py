@@ -52,15 +52,14 @@ def dashboard_event(request):
 	return  render(request, 'dashboard.html', context)
 
 def profile(request):
-	user_obj = User.objects.get(id=request.user.id)
-	user_events = user_obj.organizer.all()
+	user_obj = User.objects.get(id=request.user)
+	user_events = user.organizer.all()
 	
 	context = {
-		'user': user_obj ,
-		'events': user_events,
+		'user': user_obj		
 	}
 
-	return  render(request, 'profile.html', context)
+	return  render(request, 'profile', context)
 
 def event_detail(request , event_id):
 	event_obj = Event.objects.get(id=event_id)
@@ -175,7 +174,8 @@ class Logout(View):
 		messages.success(request, "You have successfully logged out.")
 		return redirect("login")
 
-def update_event(request, event_id):
+
+
 	event = Event.objects.get(id=event_id)
 
 	if not(request.user.is_staff or request.user == event.organized_by):
@@ -197,24 +197,19 @@ def update_event(request, event_id):
 
 
 def profile_update(request):
-	user = User.objects.get(id=request.user.id)
-	print(user.username)
-	print(user.first_name)
-	print(user.last_name)
+	user = User.objects.get(username=request.user)
+
 	if request.user.is_anonymous:
 		return redirect('login')
+
 	user_form = ProfileForm(instance=user)
-	print(user)
-	print(user_form)
+
 	if request.method == 'POST':
-		user_form = ProfileForm(request.POST, request.FILES, instance=user)
-		print(user_form.is_valid())
+		user_form = EventForm(request.POST, request.FILES, instance=event)
 		if user_form.is_valid():
-			user1 = user_form.save(commit=False)
-			print(user.username)
-			print(user1.username)
-			user1.set_password(user.password)
-			user1.save()
+			user = user_form.save(commit=False)
+			user.set_password(user.password)
+			user.save()
 			return redirect('home')
 
 	context = {

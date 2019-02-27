@@ -5,10 +5,10 @@
         <div class="container">
             <div class="row my-4">
                 <div class="col-6">
-                    <h4 class="text-left border-bottom border-white"> Organized Events</h4>
+                    <h3 class="text-left border-bottom border-white textpadding"> Organized Events</h3>
                 </div>
                 <div class="col-6 text-right">
-                    <a href="{% url 'event-create' %}" class="btn" style="background-color: #000034; color: white;">Create</a>
+                    <a href="{% url 'event-create' %}" class="btn btnr">Create</a>
                 </div>
             </div>
             <table class="table table-dark">
@@ -40,7 +40,8 @@
             {# Attendeted Events #}
             <div class="row my-4">
                 <div class="col-6">
-                    <h4 class="text-left border-bottom border-white">Attendeted Events</h4>
+
+                    <h3 class="text-left border-bottom border-white textpadding">Attendeted Events</h3>
                 </div>
             </div>
             <table class="table table-dark">
@@ -68,9 +69,12 @@
                 </tbody>
             </table>
 
-
-        <h3 class="text-left">Upcoming Events</h4>
-        <hr>
+            <div class="row my-4">
+                <div class="col-6">
+                    <h3 class="text-left border-bottom border-white textpadding">Upcoming Events</h3>
+                </div>
+            </div>
+    
         <table class="table table-dark">
           <thead>
             <tr>
@@ -94,9 +98,9 @@
                 <td>{{eve.event.tickets_left}}</td>
                 
               <td>
-                <a href="{{ eve.event.get_absolute_url }}" class="btn mx-1" style="background-color: #000034; color: white;">View</a>
+                <a href="{{ eve.event.get_absolute_url }}" class="btn btnr mx-1">View</a>
 
-                <a href="{% url 'event-cancel' eve.event.id %}" class="btn mx-1" style="background-color: #000034; color: white;">Cancel</a>
+                <a href="{% url 'event-cancel' eve.event.id %}" class="btn btnr mx-1">Cancel</a>
 
               </td>
             </tr>

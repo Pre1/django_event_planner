@@ -1,23 +1,46 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
 {% block content %}
-<header class="masthead text-center text-white">
-  <div class="masthead-content">
-    <div class="container">
-        <div class="jumbotron">
-          <h2 class="masthead-subheading mb-0">Profile</h2>
-          <form action="{% url 'profile' %}" method="POST">
-            {% csrf_token %}
-            {{form|crispy}}
-            <input class = "btn btn-primary btn-xl rounded-pill mt-5" type="submit" value="Update">
-          </form>
-      </div>
-    </div>
-  </div>
+
+<header class="masthead text-center">
   <div class="bg-circle-1 bg-circle"></div>
   <div class="bg-circle-2 bg-circle"></div>
   <div class="bg-circle-3 bg-circle"></div>
   <div class="bg-circle-4 bg-circle"></div>
+<div class="container">
+
+  <div class="alert alert-light text-center" role="alert">
+    <div class="card-body my-1">
+     
+        <h5 class="card-title">{{user.first_name}}{{user.last_name}}</h5>
+        <p class="card-text">{{user.username}}</p>
+        <br>
+    </div>
+
+    <div class="row">
+      {% for event in events %} 
+            <div class="col-6 text-center" >
+              <div class="card">
+                   <div class="img1">
+                  <a href="{{event.get_absolute_url}}"><img class="card-img-top" src="{{event.poster.url}}" alt="Card image cap"/></a></div>
+                  <h5 class="card-title position-absolute">{{event.title}}</h5>
+                
+                <div class="card-body">
+                    <h5 class="card-title hi">{{event.title}}</h5>
+                    <p class="card-text">Date: {{event.date}}</p>
+                    <p class="card-text">time: {{event.time}}</p>
+                    <a href="{{event.get_absolute_url}}" class="btn btnr">More Info</a>  
+                </div>
+              </div>
+            </div>
+      {% endfor %}
+      {% if request.user == user %}
+      <div>
+        <a href="{% url 'profile-update' %}" class="btn btnr text-center">Update Profile</a>
+      </div>
+  {%endif%}
+    </div>  
+  </div>
+</div>
+
 </header>
 {% endblock %}

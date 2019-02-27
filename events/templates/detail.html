@@ -23,7 +23,7 @@
         <form action="{{ event.get_absolute_url }}" method="POST">
 
             {% csrf_token %}
-            <input type="number" name="ticket_num" class="numberinput form-control" required="" id="id_ticket_num" min=1 max={{event.tickets_left}}>
+            <input type="number" name="ticket_num" class="numberinput form-control fcontrol" required="" id="id_ticket_num" min=1 max={{event.tickets_left}}>
 
             <input type="submit" value="Book" class="btn btnr" {% if event.tickets_left == 0 %} disabled{% endif %}>
         </form>
@@ -33,7 +33,7 @@
   
     <a href="{% url 'event-update' event.id %}" class="btn btnr">Update</a>
   
-</div>. 
+</div> 
 
 
      <div class="card-body">
