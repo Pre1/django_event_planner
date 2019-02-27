@@ -144,3 +144,8 @@ margin-top: 500px;
 .textpadding{
   padding: 8px;
 }
+
+
+.form-control{
+  width: 40%;
+}

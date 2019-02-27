@@ -25,9 +25,19 @@
   <div class="alert alert-light back" role="alert">
       <div id="myCarousel" class="carousel slide" data-ride="carousel" >
 
+      <ol class="carousel-indicators">
+      {% for event in events %}
+        <li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"
+        {% if forloop.first %}
+        class="active"
+        {% endif %}></li>
+
+      {% endfor %}
+    </ol>
+
           <div class="carousel-inner">
             {% for event in events %}
-             <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}" id="slide{{ forloop.counter }}">
+             <div class="carousel-item {% if forloop.first %} active {% endif %}" id="slide{{ forloop.counter }}">
               <a href="{{event.get_absolute_url}}">
                 <img src="{{event.poster.url}}" class="img-fluid1">
               </a>

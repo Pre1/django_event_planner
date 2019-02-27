@@ -37,7 +37,6 @@ def list_event(request):
 
 def dashboard_event(request):
 
-
 	events_orgs = request.user.organizer.all()
 	current_date = datetime.today().date()
 	events_attend = request.user.booking.filter(event__date__lte = current_date)
@@ -127,7 +126,6 @@ class Signup(View):
 
 
 class Login(View):
-	print('User events:', )
 	form_class = UserLogin
 	template_name = 'login.html'
 
@@ -211,9 +209,7 @@ def profile(request):
 		'form': user_form,
 	}
 
-	return  render(request, 'profile.html', context)
-
-
+	return  render(request, 'profile_update.html', context)
 
 
 def cancelBooking(request, event_id):
