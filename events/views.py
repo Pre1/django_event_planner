@@ -211,8 +211,6 @@ def profile_update(request):
 		print(user_form.is_valid())
 		if user_form.is_valid():
 			user1 = user_form.save(commit=False)
-			print(user.username)
-			print(user1.username)
 			user1.set_password(user.password)
 			user1.save()
 			return redirect('home')
