@@ -32,3 +32,17 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['ticket_num',]
+        # widgets={
+        #     'ticket_num': forms.NumberInput(attrs={'min': 0, 'max': booking.seats}),
+        # }
+
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','password','first_name', 'last_name', 'email']
+
+        widgets={
+            'password': forms.PasswordInput(),
+        }

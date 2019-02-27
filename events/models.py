@@ -23,14 +23,8 @@ class Event(models.Model):
         return reverse('event-detail', kwargs={'event_id': self.id})
 
     def tickets_left(self):
-    	total_tickets = 0
-
-    	bookings = self.booking.all().values_list('ticket_num', flat = True)
-    	for ticket in bookings:
-    		total_tickets += ticket
-            
+    	total_tickets = sum(self.booking.all().values_list('ticket_num', flat = True))
     	return self.seats - total_tickets
-
 
     def __str__(self):
         return self.title
