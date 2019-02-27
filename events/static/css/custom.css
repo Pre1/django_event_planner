@@ -145,7 +145,13 @@ margin-top: 500px;
   padding: 8px;
 }
 
-
-.form-control{
+.fcontrol{
   width: 40%;
+  left: 300px;
+  position:relative;
+}
+
+.l{
+
+  left: 50px;
 }
