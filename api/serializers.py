@@ -19,6 +19,17 @@ class EventListSerializer(serializers.ModelSerializer):
 		model = Event
 		fields = ['id', 'title', 'date', 'detail', ]
 
+class BookedEventSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Booking
+		exclude = ['user']
+
+	def validate(self, data):
+		print("==================")
+		print("BookedEventSerializer==================")
+		print("self", self)
+		print("data", data)
+		return  data
 
 class EventBookSerializer(serializers.ModelSerializer):
 	user = UserSerializer()

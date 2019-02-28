@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
 <header class="masthead text-center">
@@ -8,36 +9,47 @@
   <div class="bg-circle-4 bg-circle"></div>
 <div class="container">
 
-  <div class="alert alert-light text-center" role="alert">
-    <div class="card-body my-1">
-     
-        <h5 class="card-title">{{user.first_name}}{{user.last_name}}</h5>
-        <p class="card-text">{{user.username}}</p>
-        <br>
-    </div>
+  
+    
 
+    {# USER PROFILE CARD #}
+    <div class="card mb-3 prof">
+      <div class="row no-gutters prof">
+          <div class="col-md-4">
+              <img src="{% static "img/profile_def.png" %}" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+              <div class="card-body">
+                  <h5 class="card-title text-left">{{user.username}}</h5>
+                  <p class="card-text">{{user.first_name}}{{user.last_name}}</p>
+              </div>
+          </div>
+          <p class="card">
+            {% if request.user == user %}
+                <a href="{% url 'profile-update' %}" class="btn btnr text-center">Update Profile</a>
+            {%endif%}
+          </p>
+      </div>
+    </div>
+    {# =============== #}
+<div class="alert alert-light text-center" role="alert">
     <div class="row">
       {% for event in events %} 
             <div class="col-6 text-center" >
               <div class="card">
                    <div class="img1">
                   <a href="{{event.get_absolute_url}}"><img class="card-img-top" src="{{event.poster.url}}" alt="Card image cap"/></a></div>
-                  <h5 class="card-title position-absolute">{{event.title}}</h5>
+                  <h5 class="card-title position-absolute ltitle">{{event.title}}</h5>
                 
                 <div class="card-body">
-                    <h5 class="card-title hi">{{event.title}}</h5>
-                    <p class="card-text">Date: {{event.date}}</p>
-                    <p class="card-text">time: {{event.time}}</p>
+                <h5 class="card-title"><span class="cont">{{event.title}}</span></h5>
+                <p class="card-text">Date: <span class="cont">{{event.date}}</span></p>
+                <p class="card-text">Time: <span class="cont">{{event.time}}</span></p>
                     <a href="{{event.get_absolute_url}}" class="btn btnr">More Info</a>  
                 </div>
               </div>
             </div>
       {% endfor %}
-      {% if request.user == user %}
-      <div>
-        <a href="{% url 'profile-update'%}" class="btn btnr text-center">Update Profile</a>
-      </div>
-  {%endif%}
     </div>  
   </div>
 </div>

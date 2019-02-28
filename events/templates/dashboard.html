@@ -50,7 +50,8 @@
                         <th scope="col">Title</th>
                         <th scope="col">Date</th>
                         <th scope="col">Location</th>
-                        <th scope="col">Tickets</th>
+                        <th scope="col">Ticket Bought</th>
+                        <th scope="col">Purchased Date</th>
                         <th scope="col">More Info</th>
                     </tr>
                 </thead>
@@ -60,7 +61,8 @@
                         <td>{{eve.event.title}}</td>
                         <td>{{eve.event.date}},{{eve.event.time}}</td>
                         <td>{{eve.event.location}}</td>
-                        <td>{{eve.event.tickets_left}}</td>
+                        <td>{{eve.ticket_num}}</td>
+                        <td>{{eve.timestamp}}</td>
                         <td>
                             <a href="{{ eve.event.get_absolute_url }}" class="btn btnr mx-1">View</a>
                         </td>
@@ -82,7 +84,8 @@
               <th scope="col">Title</th>
               <th scope="col">Date</th>
               <th scope="col">Location</th>
-              <th scope="col">Tickets</th>
+              <th scope="col">Ticket Bought</th>
+              <th scope="col">Purchased Date</th>
               <th scope="col">More Info</th>
 
             </tr>
@@ -95,7 +98,8 @@
                 <td>{{eve.event.title}}</td>
                 <td>{{eve.event.date}},{{eve.event.time}}</td>
                 <td>{{eve.event.location}}</td>
-                <td>{{eve.event.tickets_left}}</td>
+                <td>{{eve.ticket_num}}</td>
+                <td>{{eve.timestamp}}</td>
                 
               <td>
                 <a href="{{ eve.event.get_absolute_url }}" class="btn btnr mx-1">View</a>

@@ -11,51 +11,81 @@
 <div class="alert alert-light text-center" role="alert">
 <div class="card-body my-2">
   <img class="img-fluid" src="{{event.poster.url}}"/>
-    <h5 class="card-title">{{event.title}}</h5>
-    <p class="card-text">{{event.description}}</p>
-    <p class="card-text"> Date: {{event.date}} {{event.time}}</p>
-    <p class="card-text">{{event.seats}}</p>
-    <p class="card-text">{{event.tickets_left}}</p>
-    <p class="card-text">{{event.organized_by}}</p>
-    <br>
-
-    <p class="card-text">
-        <form action="{{ event.get_absolute_url }}" method="POST">
-
-            {% csrf_token %}
-            <input type="number" name="ticket_num" class="numberinput form-control fcontrol" required="" id="id_ticket_num" min=1 max={{event.tickets_left}}>
-
-            <input type="submit" value="Book" class="btn btnr" {% if event.tickets_left == 0 %} disabled{% endif %}>
-        </form>
-    </p>
-
-  {% if request.user.is_staff or request.user == event.organized_by %}
-  
-    <a href="{% url 'event-update' event.id %}" class="btn btnr">Update</a>
-  
-</div> 
+</div>
 
 
-     <div class="card-body">
-      <table class="table table-dark">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">User</th>
-          <th scope="col">Tickets</th>
-          <th scope="col">Date and Time of Booking</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for book in booking %}
-        <tr>
-          <th scope="row">{{book.user.username}}</th>
-          <td>{{book.ticket_num}}</td>
-          <td>{{book.timestamp}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+<div class="card mb-3 cardDetail">
+  <div class="row ">
+    <div class="col-md-7">
+      <div class="card-body">
+        <h5 class="card-title">{{event.title}}</h5>
+          <p class="card-text"> Date: <span class="cont">{{event.date}} {{event.time}}</span></p>
+          <p class="card-text">Seats: <span class="cont">{{event.seats}}</span></p>
+          <p class="card-text">Left Tickets: <span class="cont">{{event.tickets_left}}</span></p>
+          <p class="card-text">Oorganized By:
+            <span class="cont"> 
+            <a href="{% url 'profile' event.organized_by.username %} "class="Org">{{event.organized_by}}</a><span>
+          </p>          
+          <p class="card-text"><small class="text-muted">
+            <span class="cont">{{event.location}}</span>
+          </small>
+          </p>
+          <p class="card-text">
+              <form action="{{ event.get_absolute_url }}" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                   <input  type="number" name="ticket_num" class="form-control fcontrol" required="" id="id_ticket_num" min=1 max={{event.tickets_left}}>
+                   <span class="input-group-btn">
+                        <button class="btn btnr" type="submit" value="Book" {% if event.tickets_left == 0 %} disabled{% endif %}>Book</button>
+                   </span>
+                </div>
+              </form>
+          </p>
+          {% if request.user.is_staff or request.user == event.organized_by %}
+          <a href="{% url 'event-update' event.id %}" class="btn btnr">Update</a>
+      </div>
     </div>
+    <div class="col-md-5">
+      <h5 class="card-title cardDescTit">Description</h5>
+      <p class="card-text text-center cardtextDes">
+        <span class="cont">{{event.description}}</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+               <div class="card-body">
+                <table class="table table-dark">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">User</th>
+                      <th scope="col">Tickets</th>
+                      <th scope="col">Date and Time of Booking</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for book in booking %}
+                    <tr>
+                      <th scope="row">{{book.user.username}}</th>
+                      <td>{{book.ticket_num}}</td>
+                      <td>{{book.timestamp}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                 </table>
+              </div>
 
   {% endif %}
  </div>

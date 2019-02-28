@@ -5,7 +5,7 @@ from .forms import UserSignup, UserLogin, EventForm, BookingForm, ProfileForm
 from django.contrib import messages
 from django.http import Http404
 from django.db.models import Q
-from datetime import datetime, timedelta
+from datetime import datetime
 from .models import Booking, Event, User
 
 def home(request):
@@ -51,14 +51,15 @@ def dashboard_event(request):
 
 	return  render(request, 'dashboard.html', context)
 
-def profile(request , username):
-	user_obj = User.objects.get(username=username)
+def profile(request):
+	user_obj = User.objects.get(id=request.user.id)
 	user_events = user_obj.organizer.all()
 	
 	context = {
 		'user': user_obj ,
 		'events': user_events,
 	}
+
 	return  render(request, 'profile.html', context)
 
 def event_detail(request , event_id):
@@ -196,21 +197,28 @@ def update_event(request, event_id):
 
 
 def profile_update(request):
-	#user_obj = User.objects.get(user=request.user)
+	user = User.objects.get(id=request.user.id)
+	print(user.username)
+	print(user.first_name)
+	print(user.last_name)
 	if request.user.is_anonymous:
 		return redirect('login')
-	user_form = ProfileForm(instance=request.user)
+	user_form = ProfileForm(instance=user)
+	print(user)
+	print(user_form)
 	if request.method == 'POST':
-		user_form = ProfileForm(request.POST, request.FILES, instance=request.user)
+		user_form = ProfileForm(request.POST, request.FILES, instance=user)
 		print(user_form.is_valid())
 		if user_form.is_valid():
-			user = user_form.save(commit=False)
-			user.set_password(user.password)
-			user.save()
-			login(request, user)
+			user1 = user_form.save(commit=False)
+			print(user.username)
+			print(user1.username)
+			user1.set_password(user.password)
+			user1.save()
 			return redirect('home')
 
 	context = {
+		'user': user,
 		'form': user_form,
 	}
 
@@ -219,7 +227,6 @@ def profile_update(request):
 
 def cancelBooking(request, event_id):
 	event_obj = Event.objects.get(id=event_id)
-	booking_obj = request.user.booking.get(event_id=event_id) 
 	today_datetime = datetime.today()
 
 	# current time + 3 hrs
@@ -228,7 +235,7 @@ def cancelBooking(request, event_id):
 	# if event_obj.date == today.date() and time_cond < event_obj.time:
 	if  time_cond < eve_datetime:
 		messages.success(request, "{} has been canceled".format(event_obj.title))
-		booking_obj.delete()
+		event_obj.delete()
 		return redirect('dashboard')
 	
 	msg = """
