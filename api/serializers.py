@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EventListSerializer(serializers.ModelSerializer):
 	detail = serializers.HyperlinkedIdentityField(
-			view_name = 'events-detail',
+			view_name = 'api-events-detail',
 			lookup_field = 'id',
 			lookup_url_kwarg = 'event_id',
 	)

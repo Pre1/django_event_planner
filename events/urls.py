@@ -10,6 +10,7 @@ from .views import (
 	dashboard_event,
     list_event,
     profile,
+    follow,
     profile_update,
     cancelBooking,
 )
@@ -31,6 +32,7 @@ urlpatterns = [
     path('list/', list_event, name='list-event'),
     path('profile/update', profile_update, name='profile-update'),
     path('profile/', profile, name='profile'),
+    path('follow/<int:user_id>/', follow, name='follow'),
 
 
 ]
