@@ -71,8 +71,6 @@ def profile(request):
 	# print("user_obj.following.all(): ",user_obj.following.all())
 	# print("user_obj.following.all().filter: ", filter_follow)
 
-	print("==================")
-	print("==================")
 	print("following count: ", f1)
 	print("followers count: ", f2)
 
@@ -126,8 +124,8 @@ def follow(request, user_id):
 		messages.warning(request, "please login")
 		return redirect('login')
 
-	user_following = User.objects.get(id=user_id)
-	follow, created = Follow.objects.get_or_create(follower=request.user, following=user_following)
+	user_obj = User.objects.get(id=user_id)
+	follow, created = Follow.objects.get_or_create(follower=request.user, following=user_obj)
 
 	if created:
 		following = True
@@ -139,8 +137,15 @@ def follow(request, user_id):
 		print("======unfollow======")
 		print("delete a follow obj")
 
+	# ct = Follow.objects.filter(following=request.user).values_list('following', flat=True).count()
+	following_count = user_obj.following.all().count()
+	follower_count = user_obj.follower.all().count()
+
 	respose = {
 		"following": following,
+		"following_count": following_count,
+		"follower_count": follower_count,
+
 	}
 	return JsonResponse(respose, safe=False)
 

@@ -40,8 +40,8 @@
                         Follow
                       {% endif %}
                 </button>
-                Following: {{following.count}} |
-                Followers: {{followers.count}}
+                Following <span id="followingCount">{{following.count}}</span>
+                Followers <span id="followerCount">{{followers.count}}</span>
             {%endif%}
           </p>
       </div>
@@ -58,9 +58,15 @@
                 success: function(data){
                   if(data.following){
                     $(button).text('Unfollow');
+                    $("#followingCount").text(data.following_count)
+                    $("#followerCount").text(data.follower_count)
+                    // console.log("data.following: " +data.ct)
                   }
                   else {
                     $(button).text('Follow');
+                    $("#followingCount").text(data.following_count);
+                    $("#followerCount").text(data.follower_count);
+                    // console.log("data.following: " +data.ct)
                   }
                 },
 
