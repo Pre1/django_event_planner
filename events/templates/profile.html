@@ -22,51 +22,62 @@
               <div class="card-body">
                   <h5 class="card-title text-left">{{user.username}}</h5>
                   <p class="card-text">{{user.first_name}}{{user.last_name}}</p>
+            
+
+                <button id="profile-{{user.id}}" class="btn btnr"  onclick="follow({{user.id}})">
+                      {% if request.user.id in following %}
+                        Unfollow
+                      {% else %}
+                        Follow
+                </button>
+                 <br>
+                Following: {{following.count}} |
+                Followers: {{followers.count}}
+            {%endif%}
               </div>
           </div>
             <p class="card">
               {% if request.user == user %}
                 <a href="{% url 'profile-update' %}" class="btn btnr text-center">Update Profile</a>
-
-                <button id="profile-{{user.id}}" class="btn btn-primary"  onclick="follow({{user.id}})">
-                      {% if request.user.id in following %}
-                        Unfollow
-                      {% else %}
-                        Follow
-                      {% endif %}
-                </button>
-                Following: {{following.count}} |
-                Followers: {{followers.count}}
             {%endif%}
           </p>
       </div>
-      <script>
-            function follow(user_id){
-              var button = "#profile-" + user_id;
 
-              $.ajax({
 
-                type: "GET",
 
-                url: "/follow/"+user_id+"/",
 
-                success: function(data){
-                  if(data.following){
-                    $(button).text('Unfollow');
-                  }
-                  else {
-                    $(button).text('Follow');
-                  }
-                },
 
-                error: function(){
-                  console.log("Stop bro!");
-                },
 
-              })
-            }      
-          </script>
-    </div>
+
+
+
+          <script>
+                function follow(user_id){
+                  var button = "#profile-" + user_id;
+
+                  $.ajax({
+
+                    type: "GET",
+
+                    url: "/follow/"+user_id+"/",
+
+                    success: function(data){
+                      if(data.following){
+                        $(button).text('Unfollow');
+                      }
+                      else {
+                        $(button).text('Follow');
+                      }
+                    },
+
+                    error: function(){
+                      console.log("Stop bro!");
+                    },
+
+                  })
+                }      
+              </script>
+        </div>
     {# =============== #}
 <div class="alert alert-light text-center" role="alert">
     <div class="row">
