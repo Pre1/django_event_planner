@@ -22,7 +22,14 @@ class EventListSerializer(serializers.ModelSerializer):
 class BookedEventSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Booking
-		exclude = ['user'] 
+		exclude = ['user']
+
+	def validate(self, data):
+		print("==================")
+		print("BookedEventSerializer==================")
+		print("self", self)
+		print("data", data)
+		return  data
 
 class EventBookSerializer(serializers.ModelSerializer):
 	user = UserSerializer()
