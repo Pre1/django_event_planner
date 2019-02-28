@@ -29,8 +29,8 @@ urlpatterns = [
     path('dashboard/cancel_booking/<int:event_id>/', cancelBooking, name='event-cancel'),
     
     path('list/', list_event, name='list-event'),
-    path('profile/update', profile_update, name='profile-update'),
-    path('profile/', profile, name='profile'),
+    path('profile/update/', profile_update, name='profile-update'),
+    path('profile/<username>', profile, name='profile'),
 
 
 ]
