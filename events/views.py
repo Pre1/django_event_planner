@@ -5,7 +5,7 @@ from .forms import UserSignup, UserLogin, EventForm, BookingForm, ProfileForm
 from django.contrib import messages
 from django.http import Http404
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Booking, Event, User
 
 def home(request):
@@ -225,6 +225,7 @@ def profile_update(request):
 
 def cancelBooking(request, event_id):
 	event_obj = Event.objects.get(id=event_id)
+	booking_obj = request.user.booking.get(event_id=event_id) 
 	today_datetime = datetime.today()
 
 	# current time + 3 hrs
@@ -233,7 +234,7 @@ def cancelBooking(request, event_id):
 	# if event_obj.date == today.date() and time_cond < event_obj.time:
 	if  time_cond < eve_datetime:
 		messages.success(request, "{} has been canceled".format(event_obj.title))
-		event_obj.delete()
+		booking_obj.delete()
 		return redirect('dashboard')
 	
 	msg = """
