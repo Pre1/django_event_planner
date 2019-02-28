@@ -45,13 +45,15 @@
           <div class="card">
                <div class="img1">
               <a href="{{event.get_absolute_url}}"><img class="card-img-top" src="{{event.poster.url}}" alt="Card image cap"/></a></div>
-              <h5 class="card-title position-absolute">{{event.title}}</h5>
+              <h5 class="card-title position-absolute ltitle">{{event.title}}</h5>
             
             <div class="card-body">
-                <h5 class="card-title hi">{{event.title}}</h5>
-                <p class="card-text">Date: {{event.date}}</p>
-                <p class="card-text">time: {{event.time}}</p>
-                <p class="card-text">Organized By: {{event.organized_by}}</p>
+                <h5 class="card-title"><span class="cont">{{event.title}}</span></h5>
+                <p class="card-text">Date: <span class="cont">{{event.date}}</span></p>
+                <p class="card-text">Time: <span class="cont">{{event.time}}</span><span class="cont"></p>
+                <p class="card-text">Organized By: 
+                  <a class="Org" href="{% url 'profile' event.organized_by.username %}">{{event.organized_by}}</a>
+                </p>
                 <a href="{{event.get_absolute_url}}" class="btn btnr">More Info</a>  
             </div>
           </div>

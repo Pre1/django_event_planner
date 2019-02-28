@@ -51,8 +51,8 @@ def dashboard_event(request):
 
 	return  render(request, 'dashboard.html', context)
 
-def profile(request):
-	user_obj = User.objects.get(id=request.user.id)
+def profile(request , username):
+	user_obj = User.objects.get(username=username)
 	user_events = user_obj.organizer.all()
 	
 	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
@@ -83,7 +83,6 @@ def profile(request):
 		'followers': f1,
 		'following': f2,
 	}
-
 	return  render(request, 'profile.html', context)
 
 def event_detail(request , event_id):
@@ -251,26 +250,21 @@ def update_event(request, event_id):
 
 
 def profile_update(request):
-	user = User.objects.get(id=request.user.id)
-	print(user.username)
-	print(user.first_name)
-	print(user.last_name)
+	#user_obj = User.objects.get(user=request.user)
 	if request.user.is_anonymous:
 		return redirect('login')
-	user_form = ProfileForm(instance=user)
-	print(user)
-	print(user_form)
+	user_form = ProfileForm(instance=request.user)
 	if request.method == 'POST':
-		user_form = ProfileForm(request.POST, request.FILES, instance=user)
+		user_form = ProfileForm(request.POST, request.FILES, instance=request.user)
 		print(user_form.is_valid())
 		if user_form.is_valid():
-			user1 = user_form.save(commit=False)
-			user1.set_password(user.password)
-			user1.save()
+			user = user_form.save(commit=False)
+			user.set_password(user.password)
+			user.save()
+			login(request, user)
 			return redirect('home')
 
 	context = {
-		'user': user,
 		'form': user_form,
 	}
 

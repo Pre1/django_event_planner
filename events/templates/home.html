@@ -41,10 +41,11 @@
               <a href="{{event.get_absolute_url}}">
                 <img src="{{event.poster.url}}" class="img-fluid1">
               </a>
-                <h2 class="card-title py-2 text-white hi">
-                  {{event.title}}<br>{{event.date}}
-                </h2>
-                {# <h3 class="card-text my-5"></h3> #}
+
+                <h5 class="py-2 home">
+                  {{event.title}}<br><small>{{event.date}}</small>
+                </h5>
+
              </div>
           {% endfor %}
           </div>

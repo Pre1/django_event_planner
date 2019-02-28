@@ -38,9 +38,12 @@ body {
   border:0.5px;
   background: #f8f9fa;
   opacity: 0.9;
-
 }
-
+.prof{
+max-width: 540px;
+background: #ffffff !important;
+opacity: 1.0;
+}
 .container{
   margin-top: 50px;
 
@@ -56,21 +59,30 @@ body {
   text-transform: uppercase;
 }
 .card-text{
-  color: #CFD6AD;
+  color: #833167;
 }
-
-.hi{
+.card-title
+ {
+  color: #7C4B4B;
+  text-transform: uppercase;
+  font-weight:900; 
+  font-size: 25px;
+}
+.home{
    text-transform: uppercase;
-   color: #CFD6AD;
+   color: #E4EDED;
+   letter-spacing: 0.325em;
+   font-family: "Pacifico";
+   font-size: 17px;
 }
 
 .btnr {
   background-color: #f8f9fa;
   color: #444444;
-  border: 0.3px solid #f8f9fa;
+  border: .7px solid #444444;
   text-transform: uppercase;
   letter-spacing: 0.325em;
-  font-size: 0.725em;
+  font-size: 0.825em;
   margin: 0.5em 0.5em 0.5em 0em;
 }
 .btn:hover {
@@ -83,7 +95,7 @@ body {
  -moz-transform: scale(1.01);
  -webkit-transform: scale(1.01);
  -ms-transform: scale(1.01);
-  transform: scale(1.009);
+ transform: scale(1.009);
   opacity: 0.7;
   filter: grayscale(70%)
 }
@@ -135,27 +147,72 @@ margin-top: 500px;
 } 
 
 .back{
-  background-color:rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.1);
+  background-color:rgba(0, 0, 0, 0.09);
+  border-color: rgba(0, 0, 0, 0.09);
   border: 0.05px;
+
 }
 
 
 .textpadding{
   padding: 8px;
 }
-
-.fcontrol{
-  width: 40%;
-  left: 300px;
-  position:relative;
-}
-
-.l{
-
-  left: 50px;
+.cardtextDes{
+  margin-top: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin-right: 40px
 }
 
 .messages {
   margin-top: 100px;
+}
+
+
+.cardDetail{
+max-width: 100%;
+margin : 30px 30px 20px 20px;
+}
+
+.cardDescTit{
+margin-top: 30px;
+margin-bottom: 15px;
+font-family: "Pacifico";
+}
+
+
+
+
+.Org:link, .Org:visited {
+  color: #574B4B;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  letter-spacing: 0.090em;
+}
+
+.Org:hover, .Org:active {
+color: gray;
+}
+
+.fcontrol {
+height: 31px;
+border-radius: 4px;
+margin-top: 7.6px;
+}
+
+
+.cont{
+  color: #574B4B;
+
+}
+
+.ltitle{
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight:900; 
+  font-size: 25px;
+  letter-spacing: 0.325em;
+  opacity: 0.7;
 }
