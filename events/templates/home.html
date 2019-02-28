@@ -4,8 +4,8 @@
 <header class="masthead text-center text-white">
   <div class="masthead-content">
     <div class="container">
-      <h1 class="masthead-heading mb-0">All the events,</h1>
-      <h2 class="masthead-subheading mb-0">You could ever want...</h2>
+      <h1 class="masthead-heading mb-0">Events, events... everywhere! </h1>
+      <h2 class="masthead-subheading mb-2">To your radar</h2>
       {% if request.user.is_anonymous %}
         <a href="{% url 'signup' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Sign up to find events!</a>
       {% else %}
@@ -25,7 +25,7 @@
   <div class="alert alert-light back" role="alert">
       <div id="myCarousel" class="carousel slide" data-ride="carousel" >
 
-      <ol class="carousel-indicators">
+      <ol class="carousel-indicators my-1">
       {% for event in events %}
         <li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"
         {% if forloop.first %}
@@ -41,8 +41,11 @@
               <a href="{{event.get_absolute_url}}">
                 <img src="{{event.poster.url}}" class="img-fluid1">
               </a>
-                <h5 class="card-title home">{{event.title}}</h5>
-                <span class="datesize"> Date: {{event.date}}</span>
+
+                <h5 class="py-2 home">
+                  {{event.title}}<br><small>{{event.date}}</small>
+                </h5>
+
              </div>
           {% endfor %}
           </div>

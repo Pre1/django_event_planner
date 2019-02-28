@@ -41,3 +41,16 @@ class Booking(models.Model):
     	return "user: {} - Event: {}".format(self.user.username, self.event.title) 
 
 
+
+class Follow(models.Model):
+    follower = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE, 
+        related_name= "follower"
+    )
+
+    following = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE,
+        related_name= "following"
+    )

@@ -3,10 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import UserSignup, UserLogin, EventForm, BookingForm, ProfileForm
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.db.models import Q
 from datetime import datetime, timedelta
-from .models import Booking, Event, User
+from .models import Booking, Event, User, Follow
 
 def home(request):
 	today = datetime.today().date()
@@ -55,9 +55,35 @@ def profile(request , username):
 	user_obj = User.objects.get(username=username)
 	user_events = user_obj.organizer.all()
 	
+	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
+	f2 = Follow.objects.filter(following=user_obj).values_list('following', flat=True)
+	
+
+	# followers = user_obj.follower.all().values_list('follower', flat=True)
+	# following = user_obj.following.all()
+	
+	# filter_follow = following.filter(follower=user_obj).values_list('following', flat=True)
+	
+	# print("FOLLOWING")
+	# print("==================")
+	# print("==================")
+	# print("user_obj.follower.all(): ",user_obj.follower.all())
+	# print("user_obj.following.all(): ",user_obj.following.all())
+	# print("user_obj.following.all().filter: ", filter_follow)
+
+	print("==================")
+	print("==================")
+	print("following count: ", f1)
+	print("followers count: ", f2)
+
+	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
+	f2 = Follow.objects.filter(following=user_obj).values_list('following', flat=True)
+	
 	context = {
-		'user': user_obj ,
+		'user': user_obj,
 		'events': user_events,
+		'followers': f1,
+		'following': f2,
 	}
 	return  render(request, 'profile.html', context)
 
@@ -93,6 +119,29 @@ def event_detail(request , event_id):
 		"booking": booking_obj,
 	}
 	return render(request, 'detail.html', context)
+
+def follow(request, user_id):
+	if not(request.user.is_authenticated):
+		messages.warning(request, "please login")
+		return redirect('login')
+
+	user_following = User.objects.get(id=user_id)
+	follow, created = Follow.objects.get_or_create(follower=request.user, following=user_following)
+
+	if created:
+		following = True
+		print("======follow======")
+		print("create follow obj")
+	else:
+		following = False
+		follow.delete()
+		print("======unfollow======")
+		print("delete a follow obj")
+
+	respose = {
+		"following": following,
+	}
+	return JsonResponse(respose, safe=False)
 
 
 def event_create(request):

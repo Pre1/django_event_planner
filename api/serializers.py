@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EventListSerializer(serializers.ModelSerializer):
 	detail = serializers.HyperlinkedIdentityField(
-			view_name = 'events-detail',
+			view_name = 'api-events-detail',
 			lookup_field = 'id',
 			lookup_url_kwarg = 'event_id',
 	)
@@ -25,10 +25,12 @@ class BookedEventSerializer(serializers.ModelSerializer):
 		exclude = ['user']
 
 	def validate(self, data):
-		print("==================")
-		print("BookedEventSerializer==================")
-		print("self", self)
-		print("data", data)
+		event_object = data.get('event')
+		ticket_num = data.get('ticket_num')
+		if event_object.tickets_left() == 0:
+			raise serializers.ValidationError("No tickets left")
+		elif ticket_num > event_object.tickets_left():
+			raise serializers.ValidationError("the number of tickets exceeded the limit")
 		return  data
 
 class EventBookSerializer(serializers.ModelSerializer):
