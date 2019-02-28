@@ -8,6 +8,9 @@ from django.db.models import Q
 from datetime import datetime, timedelta
 from .models import Booking, Event, User, Follow
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 def home(request):
 	today = datetime.today().date()
 	events = Event.objects.filter(date__gte = today)[:10]
@@ -70,12 +73,6 @@ def profile(request , username):
 	# print("user_obj.follower.all(): ",user_obj.follower.all())
 	# print("user_obj.following.all(): ",user_obj.following.all())
 	# print("user_obj.following.all().filter: ", filter_follow)
-
-	print("following count: ", f1)
-	print("followers count: ", f2)
-
-	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
-	f2 = Follow.objects.filter(following=user_obj).values_list('following', flat=True)
 	
 	context = {
 		'user': user_obj,
@@ -153,12 +150,20 @@ def event_create(request):
 	if request.user.is_anonymous:
 		return redirect('login')
 	form = EventForm()
+	following_usernames = Follow.objects.filter(follower = request.user)
 	if request.method == "POST":
 		form = EventForm(request.POST, request.FILES)
 		if form.is_valid():
 			event_obj = form.save(commit=False)
 			event_obj.organized_by = request.user
 			event_obj.save()
+			for followed_user in following_usernames:
+				send_mail(
+				    '{} has created a new event!'.format(request.user.username),
+				    '{} has made a new event \n Event information: \n Title: {}'.format(request.user.username, event.title) ,
+				    'from@example.com',
+				    [followed_user.follower.email],
+				)
 			return redirect('home')
 	context = {
 		"form":form,
