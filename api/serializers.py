@@ -22,7 +22,7 @@ class EventListSerializer(serializers.ModelSerializer):
 class BookedEventSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Booking
-		fields = ['ticket_num']
+		exclude = ['user'] 
 
 class EventBookSerializer(serializers.ModelSerializer):
 	user = UserSerializer()

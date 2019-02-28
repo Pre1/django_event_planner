@@ -81,24 +81,13 @@ class EventUpdate(RetrieveUpdateAPIView):
 	permission_classes = [IsEventOrg,]	
 
 
-class BookEvent(RetrieveUpdateAPIView):
+class BookEvent(CreateAPIView):
 	serializer_class = BookedEventSerializer
 	permission_classes = [IsAuthenticated,]
-	queryset = Booking.objects.all()
-	lookup_field = 'id'
-	lookup_url_kwarg = 'event_id'
 
 	def perform_create(self, serializer):
-		serializer.save()
+		serializer.save(user=self.request.user)
 
-	def get_queryset(self):
-		print("==================")
-		print("==================")
-		print("self", self.kwargs.get('event_id'))
-		id = self.kwargs.get('event_id')
-		eve = Event.objects.get(id=id)
-		print("event", eve.booking.all())
-		return eve.booking.all()
 
 
 class RegisterView(CreateAPIView):
