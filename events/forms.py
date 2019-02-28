@@ -4,6 +4,10 @@ from .models import Booking, Event
 
 
 class UserSignup(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserSignup, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email' ,'password']

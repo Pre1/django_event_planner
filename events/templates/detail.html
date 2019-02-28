@@ -42,31 +42,24 @@
                 </div>
               </form>
           </p>
-          {% if request.user.is_staff or request.user == event.organized_by %}
+        {% if request.user.is_staff or request.user == event.organized_by %}
           <a href="{% url 'event-update' event.id %}" class="btn btnr">Update</a>
           {%endif%}
       </div>
     </div>
+
     <div class="col-md-5">
       <h5 class="card-title cardDescTit">Description</h5>
       <p class="card-text text-center cardtextDes">
         <span class="cont">{{event.description}}</span>
       </p>
     </div>
+    
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
 {% if request.user.is_staff or request.user == event.organized_by %}
+
                <div class="card-body">
                 <table class="table table-dark">
                   <thead class="thead-dark">
