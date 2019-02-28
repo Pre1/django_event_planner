@@ -62,13 +62,13 @@ last login <small>{{user.last_login}}</small>
                     success: function(data){
                   if(data.following){
                     $(button).text('Unfollow');
-                    $("#followingCount").text(data.following_count)
-                    $("#followerCount").text(data.follower_count)
+                    $("#followerCount").text(data.following_count)
+                    // $("#followerCount").text(data.follower_count)
                   }
                   else {
                     $(button).text('Follow');
-                    $("#followingCount").text(data.following_count);
-                    $("#followerCount").text(data.follower_count);
+                    $("#followerCount").text(data.following_count);
+                    // $("#followerCount").text(data.follower_count);
                   }
                 },})}
 

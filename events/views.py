@@ -60,7 +60,7 @@ def profile(request , username):
 
 	
 	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
-	f2 = Follow.objects.filter(following=user_obj).values_list('following', flat=True)
+	f2 = Follow.objects.filter(following=user_obj).values_list('follower', flat=True)
 	
 	context = {
 		'user': user_obj,
