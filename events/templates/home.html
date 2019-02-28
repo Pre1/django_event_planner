@@ -25,7 +25,7 @@
   <div class="alert alert-light back" role="alert">
       <div id="myCarousel" class="carousel slide" data-ride="carousel" >
 
-      <ol class="carousel-indicators">
+      <ol class="carousel-indicators my-1">
       {% for event in events %}
         <li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"
         {% if forloop.first %}
@@ -41,8 +41,10 @@
               <a href="{{event.get_absolute_url}}">
                 <img src="{{event.poster.url}}" class="img-fluid1">
               </a>
-                <h5 class="card-title hi">{{event.title}}</h5>
-                <span class="datesize"> Date: {{event.date}}</span>
+                <h2 class="card-title py-2 text-white hi">
+                  {{event.title}}<br>{{event.date}}
+                </h2>
+                {# <h3 class="card-text my-5"></h3> #}
              </div>
           {% endfor %}
           </div>
