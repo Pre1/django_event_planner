@@ -41,6 +41,7 @@ body {
 }
 .prof{
   max-width: 540px;
+  max-height: 380px;
   background: #ffffff;
   opacity: 1.0;
   margin-top: 40px;
@@ -185,10 +186,13 @@ margin : 30px 30px 20px 20px;
 .cardDescTit{
 margin-top: 30px;
 margin-bottom: 15px;
-
 }
 
-
+.count{
+  color: #EF6480;
+  text-transform: capitalize;
+  letter-spacing: 0.090em;
+}
 
 
 .Org:link, .Org:visited {
@@ -198,10 +202,12 @@ margin-bottom: 15px;
   display: inline-block;
   text-transform: capitalize;
   letter-spacing: 0.090em;
+  border: none; 
 }
 
 .Org:hover, .Org:active {
 color: gray;
+border: none; 
 }
 
 .fcontrol {
@@ -223,4 +229,10 @@ margin-top: 7.6px;
   font-size: 25px;
   letter-spacing: 0.325em;
   opacity: 0.7;
+}
+.profcon{
+ margin-top: 20px;
+ margin-bottom: 20px;
+
+
 }

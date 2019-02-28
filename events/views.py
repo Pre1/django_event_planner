@@ -54,25 +54,6 @@ def dashboard_event(request):
 def profile(request , username):
 	user_obj = User.objects.get(username=username)
 	user_events = user_obj.organizer.all()
-	
-	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
-	f2 = Follow.objects.filter(following=user_obj).values_list('following', flat=True)
-	
-
-	# followers = user_obj.follower.all().values_list('follower', flat=True)
-	# following = user_obj.following.all()
-	
-	# filter_follow = following.filter(follower=user_obj).values_list('following', flat=True)
-	
-	# print("FOLLOWING")
-	# print("==================")
-	# print("==================")
-	# print("user_obj.follower.all(): ",user_obj.follower.all())
-	# print("user_obj.following.all(): ",user_obj.following.all())
-	# print("user_obj.following.all().filter: ", filter_follow)
-
-	print("following count: ", f1)
-	print("followers count: ", f2)
 
 	f1 = Follow.objects.filter(follower=user_obj).values_list('follower', flat=True)
 	f2 = Follow.objects.filter(following=user_obj).values_list('following', flat=True)
@@ -124,19 +105,17 @@ def follow(request, user_id):
 		return redirect('login')
 
 	user_obj = User.objects.get(id=user_id)
-	follow, created = Follow.objects.get_or_create(follower=request.user, following=user_obj)
 
-	if created:
-		following = True
-		print("======follow======")
-		print("create follow obj")
-	else:
-		following = False
-		follow.delete()
-		print("======unfollow======")
-		print("delete a follow obj")
+	if not request.user == user_obj :
+		follow, created = Follow.objects.get_or_create(follower=request.user, following=user_obj)
 
-	# ct = Follow.objects.filter(following=request.user).values_list('following', flat=True).count()
+		if created:
+			following = True
+
+		else:
+			following = False
+			follow.delete()
+
 	following_count = user_obj.following.all().count()
 	follower_count = user_obj.follower.all().count()
 

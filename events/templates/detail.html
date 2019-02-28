@@ -44,6 +44,7 @@
           </p>
           {% if request.user.is_staff or request.user == event.organized_by %}
           <a href="{% url 'event-update' event.id %}" class="btn btnr">Update</a>
+          {%endif%}
       </div>
     </div>
     <div class="col-md-5">
@@ -65,7 +66,7 @@
 
 
 
-
+{% if request.user.is_staff or request.user == event.organized_by %}
                <div class="card-body">
                 <table class="table table-dark">
                   <thead class="thead-dark">

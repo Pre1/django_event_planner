@@ -20,21 +20,23 @@
           </div>
           <div class="col-md-8 mb-1">
               <div class="card-body">
-                  <h5 class="card-title text-left">{{user.username}}</h5>
-                  <p class="card-text">{{user.first_name}}{{user.last_name}}</p>
-            
-
+                  <h5 class="card-title text-left mx-4">{{user.username}}</h5>
+                  <div class="profcon">
+                  <p class="card-text ">{{user.first_name}} {{user.last_name}}</p>
+                  </div>
+                  {%if not request.user == user %}
                 <button id="profile-{{user.id}}" class="btn btnr"  onclick="follow({{user.id}})">
                       {% if request.user.id in following %}
                         Unfollow
                       {% else %}
                         Follow
+                      {%endif%}
                 </button>
-                 <br>
-                 <p> Following Followers</p>
-                 <p> <span id="followingCount">{{following.count}}</span>
-                 <span id="followerCount">{{followers.count}}</span></p>
-            {%endif%}
+                {%endif%}
+                 <br><p class="">
+                 <span class="count">Following <span id="followingCount">{{following.count}}</span> </span> |
+                 <span class="count">Followers <span id="followerCount">{{followers.count}}</span></span>
+</p>
               </div>
           </div>
             <p class="card update">
@@ -43,7 +45,9 @@
             {%endif%}
           </p>
       </div>
-
+<div class="card-footer" >
+last login <small>{{user.last_login}}</small>
+</div>
 
           <script>
                 function follow(user_id){
